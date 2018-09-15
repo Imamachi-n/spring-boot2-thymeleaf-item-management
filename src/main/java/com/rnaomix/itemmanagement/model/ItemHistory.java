@@ -30,11 +30,15 @@ public class ItemHistory {
     @OrderBy("orderDetailId ASC")
     private List<ItemHistoryDetail> itemHistoryDetails;
 
+    @Column(nullable = false)
+    private java.sql.Date createDate;
+
     public ItemHistory() {}
 
-    public ItemHistory(User user, String description, List<ItemHistoryDetail> itemHistoryDetails){
+    public ItemHistory(User user, String description, List<ItemHistoryDetail> itemHistoryDetails, java.sql.Date createDate){
         this.user = user;
         this.description = description;
         this.itemHistoryDetails = itemHistoryDetails;
+        this.createDate = createDate;
     }
 }

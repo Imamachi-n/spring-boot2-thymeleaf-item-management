@@ -27,11 +27,15 @@ public class Item {
     @Column(nullable = false)
     private long price;
 
+    @Column(nullable = false)
+    private java.sql.Date createDate;
+
     public Item() {}
 
-    public Item(String catId, String itemName, long price){
+    public Item(String catId, String itemName, long price, java.sql.Date createDate){
         this.catId = catId;
         this.itemName = itemName;
         this.price = price;
+        this.createDate = createDate;
     }
 }
