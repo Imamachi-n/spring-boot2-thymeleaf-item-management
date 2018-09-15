@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "item_history")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class ItemHistory {
 
@@ -20,8 +19,9 @@ public class ItemHistory {
     @Column(nullable = false, updatable = false)
     private long orderId;
 
-//    @Column(nullable = false)
-//    private long user;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId", nullable = false)
+    private User user;
 
     @Column(nullable = false)
     private String description;
@@ -30,4 +30,11 @@ public class ItemHistory {
     @OrderBy("orderDetailId ASC")
     private List<ItemHistoryDetail> itemHistoryDetails;
 
+    public ItemHistory() {}
+
+    public ItemHistory(User user, String description, List<ItemHistoryDetail> itemHistoryDetails){
+        this.user = user;
+        this.description = description;
+        this.itemHistoryDetails = itemHistoryDetails;
+    }
 }

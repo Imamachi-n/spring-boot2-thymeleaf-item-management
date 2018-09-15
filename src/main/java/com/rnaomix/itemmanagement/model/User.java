@@ -12,23 +12,26 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class User {
 
+    public enum Role {
+        USER, ADMIN
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
     private long userId;
 
-    @Column(nullable = false, unique = true)
+    @Column(length = 20, nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column(length = 20, nullable = false)
     private String password;
 
     @Column(nullable = false)
-    private String role;
+    private Role role;
 
     public User(){}
 
-    public User(String username, String password, String role){
+    public User(String username, String password, Role role){
         this.username = username;
         this.password = password;
         this.role = role;
