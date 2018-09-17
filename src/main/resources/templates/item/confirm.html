@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>物品管理システム - 入力フォーム確認</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans"
+</head>
+<body>
+    <!-- menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark "  id="navbarToggleExternalContent">
+        <a class="navbar-brand" href="#">物品管理システム</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item mx-1">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-home fa-lg"></i> ホーム
+                        <span class="sr-only"></span>
+                    </a>
+                </li>
+
+                <li class="nav-item mx-1">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-search fa-lg"></i> 検索
+                    </a>
+                </li>
+
+                <li class="nav-item mx-1 active">
+                    <a class="nav-link" href="/item/list">
+                        <i class="fas fa-boxes fa-lg"></i> 物品管理
+                    </a>
+                </li>
+
+                <li class="nav-item mx-1">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-users fa-lg"></i> ユーザ管理
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item mx-1">
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="物品名を入力" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                            <i class="fas fa-search"></i> 検索
+                        </button>
+                    </form>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav navbar-right">
+                <li class="nav-item mx-2 active">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-shopping-cart fa-2x"></i>1
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- end of menu -->
+
+    <!-- main container -->
+    <div class="container"><br/>
+        <div class="header clearfix">
+            <h3 class="text-muted">
+                <i class="fas fa-boxes"></i> 物品管理
+            </h3>
+        </div>
+
+        <hr/>
+
+        <h5>入力フォーム確認</h5>
+        <div class="container">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>カタログID</th>
+                        <th>物品名</th>
+                        <th>価格</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td th:text="${itemForm.catId}"></td>
+                        <td th:text="${itemForm.itemName}"></td>
+                        <td th:text="${itemForm.price}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <form method="post" action="/item/confirm" th:action="@{/item/confirm}" th:object="${itemForm}">
+                    <input type="hidden" id="catId" th:field="*{catId}"/>
+                    <input type="hidden" id="itemName" th:field="*{itemName}"/>
+                    <input type="hidden" id="price" th:field="*{price}"/>
+                    <button type="submit" name="submit" class="btn btn-primary" value="submit">
+                        登録
+                    </button>
+                    <button type="submit" name="submit" class="btn btn-light" value="cancel">
+                        キャンセル
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- end of main container -->
+
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+</body>
+</html>

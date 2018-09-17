@@ -19,6 +19,6 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
     // Bulk delete
     // should be Entity name NOT table name
     @Modifying
-    @Query("DELETE FROM Item WHERE itemCd IN (:itemIds)")
+    @Query("DELETE FROM Item WHERE itemId IN (:itemIds)")
     public int deleteItemById(@Param("itemIds") Set<Integer> itemIds);
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, updatable = false)
-    private long itemId;
+    private Integer itemId;
 
     @Column(nullable = false, unique = true)
     private String catId;
@@ -32,10 +33,10 @@ public class Item {
 
     public Item() {}
 
-    public Item(String catId, String itemName, long price, java.sql.Date createDate){
+    public Item(String catId, String itemName, long price){
         this.catId = catId;
         this.itemName = itemName;
         this.price = price;
-        this.createDate = createDate;
+        this.createDate = java.sql.Date.valueOf(LocalDate.now());
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Set;
 
 @SpringBootApplication
 public class ItemManagementApplication {
@@ -45,10 +46,12 @@ public class ItemManagementApplication {
             userRepository.save(user2);
 
             // Add items and save these to DB
-            Item item1 = new Item("S001", "Coffee", 1000L, java.sql.Date.valueOf(LocalDate.now()));
-            Item item2 = new Item("S002", "Tea", 1500L, java.sql.Date.valueOf(LocalDate.now()));
+            Item item1 = new Item("S001", "Coffee", 1000L);
+            Item item2 = new Item("S002", "Tea", 1500L);
+            Item item3 = new Item("S003", "Water", 600L);
             itemRepository.save(item1);
             itemRepository.save(item2);
+            itemRepository.save(item3);
 
             // Add itemHistory and save these to DB
             ItemHistoryDetail itemHistoryDetail1 = new ItemHistoryDetail();
