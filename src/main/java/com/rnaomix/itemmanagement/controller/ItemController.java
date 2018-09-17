@@ -4,6 +4,7 @@ import com.rnaomix.itemmanagement.form.ItemForm;
 import com.rnaomix.itemmanagement.model.Item;
 import com.rnaomix.itemmanagement.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -61,15 +62,24 @@ public class ItemController {
     @PostMapping("/confirm")
     public String confirmItemRegistration(@RequestParam(name = "submit") String submit, @ModelAttribute ItemForm itemForm, Model model){
 
+        // キャンセルボタンを押した場合
         if (submit.equals("cancel")){
-            // 全件検索結果をリクエストスコープで渡す
+            // 前の画面に戻る
             initGetItems(model);
             return "item/list";
         }
 
         // 物品の登録
         Item item = new Item(itemForm.getCatId(), itemForm.getItemName(), itemForm.getPrice());
-        itemService.saveItem(item);
+        try {
+            itemService.saveItem(item);
+        }catch(DataIntegrityViolationException e){
+            // 前の画面に戻る
+            init(model);
+            // エラーメッセージ
+            model.addAttribute("formError", "対象のカタログIDはすでに登録されています。");
+            return "item/list";
+        }
 
         // 初期処理
         init(model);
@@ -81,6 +91,7 @@ public class ItemController {
     @PostMapping("/delete")
     public String deleteItems(@RequestParam(name = "itemIds", required = false)Set<Integer> itemIds, Model model){
 
+        // チェックをつけなかった場合
         if (itemIds == null || itemIds.size() == 0){
             // 初期処理
             init(model);
@@ -90,7 +101,15 @@ public class ItemController {
         }
 
         // 対象の物品情報の削除
-        itemService.deleteItem(itemIds);
+        try {
+            itemService.deleteItem(itemIds);
+        }catch(DataIntegrityViolationException e){
+            // 前の画面に戻る
+            init(model);
+            // エラーメッセージ
+            model.addAttribute("deleteError", "対象の物品は購入履歴に含まれているので削除できません。");
+            return "item/list";
+        }
         return "redirect:list";
     }
 }
