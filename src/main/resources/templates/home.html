@@ -13,9 +13,9 @@
         }
     </style>
 </head>
-<body>
+<body style="padding-top: 70px">
     <!-- menu -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark "  id="navbarToggleExternalContent">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"  id="navbarToggleExternalContent">
         <a class="navbar-brand" href="/home">物品管理システム</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -82,7 +82,7 @@
         <!-- jumbotron -->
         <div class="jumbotron">
             <h1 class="display-4">物品管理にお困りですか？</h1>
-            <p class="lead">物品管理システムを使って購入した物品を管理しましょう。</p>
+            <p class="lead">物品管理システムを使って購入する物品を管理しましょう。</p>
             <hr class="my-4">
             <p>まずは物品を購入してみましょう。</p>
             <a class="btn btn-primary btn-lg" href="/search/list" role="button">物品購入へ→</a>
@@ -95,57 +95,74 @@
             </h3>
         </div>
 
-        <!--<div class="carousel slide" data-ride="carousel">-->
-            <!--<div class="carousel-inner row w-100 mx-auto">-->
-                <!--<div class="carousel-item col-md-4 active">-->
-                    <!--<div class="card">-->
-                        <!--<div class="card-body">-->
-                            <!--<h5 class="card-title">Card title1</h5>-->
-                            <!--<p class="card-text">Somethings</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+        <!-- item list -->
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">リケン ふえるわかめちゃん国内 16g </h5>
+                    <p class="card-text text-danger">￥2,000</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">カートに入れる</button>
+                </div>
+            </div>
 
-                <!--<div class="carousel-item col-md-4">-->
-                    <!--<div class="card">-->
-                        <!--<div class="card-body">-->
-                            <!--<h5 class="card-title">Card title2</h5>-->
-                            <!--<p class="card-text">Somethings</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">ケロッグ コーンフロスティ 袋 240g </h5>
+                    <p class="card-text text-danger">￥2,000</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">カートに入れる</button>
+                </div>
+            </div>
 
-                <!--<div class="carousel-item col-md-4">-->
-                    <!--<div class="card">-->
-                        <!--<div class="card-body">-->
-                            <!--<h5 class="card-title">Card title3</h5>-->
-                            <!--<p class="card-text">Somethings</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">江崎グリコ トマトプリッツ<9袋> 134g </h5>
+                    <p class="card-text text-danger">￥2,000</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">カートに入れる</button>
+                </div>
+            </div>
+        </div>
 
-                <!--<div class="carousel-item col-md-4">-->
-                    <!--<div class="card">-->
-                        <!--<div class="card-body">-->
-                            <!--<h5 class="card-title">Card title4</h5>-->
-                            <!--<p class="card-text">Somethings</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+        <div class="card-group">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">クイックルワイパー フロア用掃除道具 ハンディ 取替用</h5>
+                    <p class="card-text text-danger">￥2,000</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">カートに入れる</button>
+                </div>
+            </div>
 
-                <!--<div class="carousel-item col-md-4">-->
-                    <!--<div class="card">-->
-                        <!--<div class="card-body">-->
-                            <!--<h5 class="card-title">Card title5</h5>-->
-                            <!--<p class="card-text">Somethings</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">キッチンクイックル つめかえ用 ジャンボパック 24枚入</h5>
+                    <p class="card-text text-danger">￥2,000</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">カートに入れる</button>
+                </div>
+            </div>
 
-        <hr/>
-    </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">エリエール ティッシュ キュート 160組×5箱 パルプ</h5>
+                    <p class="card-text text-danger">￥2,000</p>
+                </div>
+                <div class="card-footer">
+                    <button class="btn btn-primary">カートに入れる</button>
+                </div>
+            </div>
+        </div>
+        <!-- end of item list -->
+
+            <hr/>
+        </div>
     <!-- end of main container -->
 
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
