@@ -83,7 +83,35 @@
 
     <h5>物品情報の更新</h5>
     <div class="container">
-        <!--TODO: -->
+        <form method="post" action="/item/save" th:action="@{/item/save}" th:object="${item}">
+            <input type="hidden" name="itemId" th:value="*{itemId}"/>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="catId">カタログID</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('catId')} ? 'is-invalid'" type="text" id="catId" size="40" placeholder="例）1234567" th:field="*{catId}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('catId')}">カタログIDは1～50文字で入力してください。</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="catId">物品名</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('itemName')} ? 'is-invalid'" type="text" id="itemName" size="40" placeholder="例）トイレットペーパー" th:field="*{itemName}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('itemName')}">物品名は1～400文字で入力してください。</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="catId">価格</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" type="text" id="price" size="40" placeholder="例）1200" th:field="*{price}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}">価格は1～10,000,000円の数字で入力してください。</small>
+                </div>
+            </div>
+
+            <button type="submit" name="submit" class="btn btn-primary" value="submit">登録</button>
+            <button type="submit" name="submit" class="btn btn-light" value="cancel">キャンセル</button>
+        </form>
     </div>
 </div>
 <!-- end of main container -->

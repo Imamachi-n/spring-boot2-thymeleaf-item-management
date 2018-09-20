@@ -7,9 +7,11 @@ import java.util.Set;
 
 public interface ItemService {
 
-    public List<Item> getItemList();
+    List<Item> getItemList();
 
-    public Item saveItem(Item item);
+    Item saveItem(Item item);
 
-    public int deleteItem(Set<Integer> itemIds);
+    int deleteItem(Set<Integer> itemIds);
+
+    Item getItem(Integer itemId);
 }

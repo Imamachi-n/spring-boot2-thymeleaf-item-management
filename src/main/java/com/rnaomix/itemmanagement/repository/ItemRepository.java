@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Set;
 
-public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificationExecutor<Item> {
+public interface ItemRepository extends JpaRepository<Item, Integer>, JpaSpecificationExecutor<Item> {
 
     // TodoRepository#findAll
     // TodoRepository#findById
@@ -20,5 +20,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>, JpaSpecificat
     // should be Entity name NOT table name
     @Modifying
     @Query("DELETE FROM Item WHERE itemId IN (:itemIds)")
-    public int deleteItemById(@Param("itemIds") Set<Integer> itemIds);
+    int deleteItemById(@Param("itemIds") Set<Integer> itemIds);
+
+    Item findByItemId(Integer itemId);
 }

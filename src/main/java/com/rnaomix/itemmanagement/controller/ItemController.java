@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 @Controller
@@ -88,6 +89,35 @@ public class ItemController {
         return "item/list";
     }
 
+    @GetMapping("edit")
+    public String editItem(@RequestParam(name = "itemId") Integer itemId, Model model){
+
+        model.addAttribute("item", itemService.getItem(itemId));
+        return "item/edit";
+    }
+
+    @PostMapping("/save")
+    public String saveItem(@ModelAttribute Item item, BindingResult result, @RequestParam String submit, Model model){
+
+        // キャンセル
+        // キャンセルボタンを押した場合
+        if (submit.equals("cancel")){
+            // 前の画面に戻る
+            return "redirect:list";
+        }
+
+        // 入力エラーが存在する場合
+        if (result.hasErrors()) {
+            model.addAttribute("itemId", item.getItemId());
+            return "/item/edit";
+        }
+
+        // 物品の登録
+        item.setCreateDate(java.sql.Date.valueOf(LocalDate.now()));
+        itemService.saveItem(item);
+        return "redirect:list";
+    }
+
     @PostMapping("/delete")
     public String deleteItems(@RequestParam(name = "itemIds", required = false)Set<Integer> itemIds, Model model){
 
@@ -107,7 +137,7 @@ public class ItemController {
             // 前の画面に戻る
             init(model);
             // エラーメッセージ
-            model.addAttribute("deleteError", "対象の物品は購入履歴に含まれているので削除できません。");
+            model.addAttribute("deleteError", "対象の物品は購入履歴に使用されているので削除できません。");
             return "item/list";
         }
         return "redirect:list";

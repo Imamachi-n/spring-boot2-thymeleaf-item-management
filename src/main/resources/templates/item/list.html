@@ -16,7 +16,7 @@
             display: block;
             position: relative;
             padding-left: 35px;
-            margin-bottom: 12px;
+            margin-bottom: 20px;
             margin-left: 20px;
             cursor: pointer;
             font-size: 22px;
@@ -217,26 +217,32 @@
                                 削除
                             </button>
                         </th>
-                        <th>物品ID</th>
-                        <th>カタログID</th>
-                        <th>物品名</th>
-                        <th>価格</th>
-                        <th>作成日</th>
+                        <th class="align-middle">物品ID</th>
+                        <th class="align-middle">カタログID</th>
+                        <th class="align-middle">物品名</th>
+                        <th class="align-middle">価格</th>
+                        <th class="align-middle">作成日</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="item : ${items}">
-                        <td>
+                        <td class="align-middle">
                             <label class="customcheck">
-                                <input type="checkbox" class="checkbox" name="itemIds" th:value="${item.itemId}" />
+                                <input type="checkbox" class="checkbox align-middle" name="itemIds" th:value="${item.itemId}" />
                                 <span class="checkmark"></span>
                             </label>
                         </td>
-                        <td th:text="${item.itemId}"></td>
-                        <td th:text="${item.catId}"></td>
-                        <td th:text="${item.itemName}"></td>
-                        <td th:text="${item.price}"></td>
-                        <td th:text="${item.createDate}"></td>
+                        <td th:text="${item.itemId}" class="align-middle"></td>
+                        <td th:text="${item.catId}" class="align-middle"></td>
+                        <td th:text="${item.itemName}" class="align-middle"></td>
+                        <td th:text="${item.price}" class="align-middle"></td>
+                        <td th:text="${item.createDate}" class="align-middle"></td>
+                        <td>
+                            <a class="btn btn-primary btn-sm" th:href="@{/item/edit(itemId=${item.itemId})}">
+                                更新
+                            </a>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

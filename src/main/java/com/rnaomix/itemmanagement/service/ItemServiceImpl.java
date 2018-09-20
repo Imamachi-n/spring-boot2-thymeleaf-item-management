@@ -35,4 +35,9 @@ public class ItemServiceImpl implements ItemService {
     public int deleteItem(Set<Integer> itemIds){
         return itemRepository.deleteItemById(itemIds);
     }
+
+    @Override
+    public Item getItem(Integer itemId){
+        return itemRepository.findByItemId(itemId);
+    }
 }
