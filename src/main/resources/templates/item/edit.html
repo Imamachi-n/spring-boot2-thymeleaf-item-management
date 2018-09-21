@@ -83,7 +83,7 @@
 
     <h5>物品情報の更新</h5>
     <div class="container">
-        <form method="post" action="/item/save" th:action="@{/item/save}" th:object="${item}">
+        <form method="post" action="/item/save" th:action="@{/item/save}" th:object="${itemForm}">
             <input type="hidden" name="itemId" th:value="*{itemId}"/>
             <div class="form-row">
                 <div class="form-group">

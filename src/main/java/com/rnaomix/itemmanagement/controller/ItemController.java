@@ -92,12 +92,14 @@ public class ItemController {
     @GetMapping("edit")
     public String editItem(@RequestParam(name = "itemId") Integer itemId, Model model){
 
-        model.addAttribute("item", itemService.getItem(itemId));
+        Item item = itemService.getItem(itemId);
+        ItemForm itemForm = new ItemForm(itemId, item.getCatId(), item.getItemName(), item.getPrice());
+        model.addAttribute("itemForm", itemForm);
         return "item/edit";
     }
 
     @PostMapping("/save")
-    public String saveItem(@ModelAttribute Item item, BindingResult result, @RequestParam String submit, Model model){
+    public String saveItem(@Validated @ModelAttribute ItemForm itemForm, BindingResult result, @RequestParam String submit, Model model){
 
         // キャンセル
         // キャンセルボタンを押した場合
@@ -108,12 +110,12 @@ public class ItemController {
 
         // 入力エラーが存在する場合
         if (result.hasErrors()) {
-            model.addAttribute("itemId", item.getItemId());
+            model.addAttribute("itemId", itemForm.getItemId());
             return "/item/edit";
         }
 
         // 物品の登録
-        item.setCreateDate(java.sql.Date.valueOf(LocalDate.now()));
+        Item item = new Item(itemForm.getItemId(), itemForm.getCatId(), itemForm.getItemName(), itemForm.getPrice(), java.sql.Date.valueOf(LocalDate.now()));
         itemService.saveItem(item);
         return "redirect:list";
     }
