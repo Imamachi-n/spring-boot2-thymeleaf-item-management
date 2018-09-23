@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Set;
 
 public interface ItemRepository extends JpaRepository<Item, Integer>, JpaSpecificationExecutor<Item> {
@@ -20,7 +21,7 @@ public interface ItemRepository extends JpaRepository<Item, Integer>, JpaSpecifi
     // should be Entity name NOT table name
     @Modifying
     @Query("DELETE FROM Item WHERE itemId IN (:itemIds)")
-    int deleteItemById(@Param("itemIds") Set<Integer> itemIds);
+    int deleteItemById(@Param("itemIds") List<Integer> itemIds);
 
     Item findByItemId(Integer itemId);
 }

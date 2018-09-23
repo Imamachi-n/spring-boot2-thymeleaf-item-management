@@ -81,10 +81,15 @@
 
     <hr/>
 
+    <!-- status -->
+    <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
+    <!-- end of status -->
+
     <h5>物品情報の更新</h5>
     <div class="container">
         <form method="post" action="/item/save" th:action="@{/item/save}" th:object="${itemForm}">
             <input type="hidden" name="itemId" th:value="*{itemId}"/>
+            <input type="hidden" name="version" th:value="*{version}"/>
             <div class="form-row">
                 <div class="form-group">
                     <label for="catId">カタログID</label>

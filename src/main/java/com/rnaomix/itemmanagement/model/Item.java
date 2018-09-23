@@ -31,6 +31,9 @@ public class Item {
     @Column(nullable = false)
     private java.sql.Date createDate;
 
+    @Version
+    private Integer version;
+
     public Item() {}
 
     public Item(String catId, String itemName, long price){
@@ -39,4 +42,5 @@ public class Item {
         this.price = price;
         this.createDate = java.sql.Date.valueOf(LocalDate.now());
     }
+
 }

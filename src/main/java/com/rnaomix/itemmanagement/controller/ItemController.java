@@ -5,6 +5,7 @@ import com.rnaomix.itemmanagement.model.Item;
 import com.rnaomix.itemmanagement.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -85,7 +87,7 @@ public class ItemController {
         // 初期処理
         init(model);
         // ステータス（登録成功）
-        model.addAttribute("isRegistered", true);
+        model.addAttribute("isRegistered", "物品の登録に成功しました。");
         return "item/list";
     }
 
@@ -93,7 +95,7 @@ public class ItemController {
     public String editItem(@RequestParam(name = "itemId") Integer itemId, Model model){
 
         Item item = itemService.getItem(itemId);
-        ItemForm itemForm = new ItemForm(itemId, item.getCatId(), item.getItemName(), item.getPrice());
+        ItemForm itemForm = new ItemForm(itemId, item.getCatId(), item.getItemName(), item.getPrice(), item.getVersion());
         model.addAttribute("itemForm", itemForm);
         return "item/edit";
     }
@@ -115,33 +117,46 @@ public class ItemController {
         }
 
         // 物品の登録
-        Item item = new Item(itemForm.getItemId(), itemForm.getCatId(), itemForm.getItemName(), itemForm.getPrice(), java.sql.Date.valueOf(LocalDate.now()));
-        itemService.saveItem(item);
+        Item item = new Item(itemForm.getItemId(), itemForm.getCatId(), itemForm.getItemName(), itemForm.getPrice(), java.sql.Date.valueOf(LocalDate.now()), itemForm.getVersion());
+
+        try {
+            itemService.saveItem(item);
+        }catch(OptimisticLockingFailureException e) {
+            model.addAttribute("itemId", itemForm.getItemId());
+            model.addAttribute("formError", "別のユーザによって内容が更新されたため、入力内容を反映できませんでした。");
+            return "/item/edit";
+        }
         return "redirect:list";
     }
 
     @PostMapping("/delete")
-    public String deleteItems(@RequestParam(name = "itemIds", required = false)Set<Integer> itemIds, Model model){
+    public String deleteItems(@RequestParam(name = "itemIds", required = false) List<Integer> itemIds, Model model){
 
         // チェックをつけなかった場合
         if (itemIds == null || itemIds.size() == 0){
             // 初期処理
             init(model);
             // ステータス
-            model.addAttribute("isNotChecked", true);
+            model.addAttribute("isNotChecked", "削除対象が選択されていません。");
             return "item/list";
         }
 
         // 対象の物品情報の削除
         try {
+            // 削除処理
             itemService.deleteItem(itemIds);
+
+            // 成功メッセージ
+            model.addAttribute("isDeleted", "物品の削除に成功しました。");
+
         }catch(DataIntegrityViolationException e){
-            // 前の画面に戻る
-            init(model);
+
             // エラーメッセージ
             model.addAttribute("deleteError", "対象の物品は購入履歴に使用されているので削除できません。");
-            return "item/list";
         }
-        return "redirect:list";
+
+        // 前の画面に戻る
+        init(model);
+        return "item/list";
     }
 }

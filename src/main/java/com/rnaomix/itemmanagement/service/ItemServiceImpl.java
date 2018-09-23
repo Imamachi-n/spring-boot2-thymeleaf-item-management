@@ -32,7 +32,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public int deleteItem(Set<Integer> itemIds){
+    public int deleteItem(List<Integer> itemIds){
         return itemRepository.deleteItemById(itemIds);
     }
 

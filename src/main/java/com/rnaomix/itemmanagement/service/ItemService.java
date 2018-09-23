@@ -11,7 +11,7 @@ public interface ItemService {
 
     Item saveItem(Item item);
 
-    int deleteItem(Set<Integer> itemIds);
+    int deleteItem(List<Integer> itemIds);
 
     Item getItem(Integer itemId);
 }

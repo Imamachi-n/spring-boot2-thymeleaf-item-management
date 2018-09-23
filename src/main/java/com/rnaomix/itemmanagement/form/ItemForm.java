@@ -13,7 +13,6 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class ItemForm {
 
-    @NotNull
     private Integer itemId;
 
     @NotNull
@@ -29,11 +28,20 @@ public class ItemForm {
     @Max(10000000)
     private long price;
 
+    private Integer version;
+
     public ItemForm() {}
 
     public ItemForm(String catId, String itemName, long price) {
         this.catId = catId;
         this.itemName = itemName;
         this.price = price;
+    }
+
+    public ItemForm(String catId, String itemName, long price, Integer version) {
+        this.catId = catId;
+        this.itemName = itemName;
+        this.price = price;
+        this.version = version;
     }
 }

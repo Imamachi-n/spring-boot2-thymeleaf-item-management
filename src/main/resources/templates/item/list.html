@@ -156,9 +156,7 @@
         <hr/>
 
         <!-- status -->
-        <div class="alert alert-success" th:if="${isRegistered}" role="alert">
-            物品の登録に成功しました。
-        </div>
+        <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
         <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
         <!-- end of status -->
 
@@ -200,10 +198,10 @@
         <hr/>
 
         <!-- status -->
-        <div class="alert alert-danger" th:if="${isNotChecked}" role="alert">
-            削除対象が選択されていません。
-        </div>
+        <div class="alert alert-success" th:if="${isDeleted}" th:text="${isDeleted}" role="alert"></div>
+        <div class="alert alert-danger" th:if="${isNotChecked}" th:text="${isNotChecked}" role="alert"></div>
         <div class="alert alert-danger" th:if="${deleteError}" th:text="${deleteError}" role="alert"></div>
+        <!-- end of status -->
 
         <h5>物品一覧</h5>
         <div class="table-responsive">
