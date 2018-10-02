@@ -46,9 +46,9 @@ public class ItemManagementApplication {
             userRepository.save(user2);
 
             // Add items and save these to DB
-            Item item1 = new Item("S001", "Coffee", 1000L);
-            Item item2 = new Item("S002", "Tea", 1500L);
-            Item item3 = new Item("S003", "Water", 600L);
+            Item item1 = new Item("S001", "アサヒ ウィルキンソン ジンジャエール 500ml×3本", 1000L);
+            Item item2 = new Item("S002", "ダウ゛ ビューティモイスチャー クリーミー泡洗顔料", 1500L);
+            Item item3 = new Item("S003", "アリエール 洗濯洗剤 液体 リビングドライイオンパワージェル", 600L);
             itemRepository.save(item1);
             itemRepository.save(item2);
             itemRepository.save(item3);
