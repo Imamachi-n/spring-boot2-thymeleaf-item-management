@@ -14,4 +14,6 @@ public interface ItemService {
     int deleteItem(List<Integer> itemIds);
 
     Item getItem(Integer itemId);
+
+    List<Item> searchItemList(Item item);
 }
