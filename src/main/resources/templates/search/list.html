@@ -90,9 +90,9 @@
     <!-- search area -->
     <div class="row justify-content-center">
         <div class="col-6">
-            <form>
+            <form method="post" action="/search/list" th:action="@{/search/list}" th:object="${item}">
                 <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" placeholder="物品名を入力" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control" placeholder="物品名を入力" th:field="*{itemName}"/>
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i> 検索</button>
                     </div>

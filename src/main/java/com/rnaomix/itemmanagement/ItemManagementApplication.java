@@ -70,18 +70,18 @@ public class ItemManagementApplication {
             ItemHistoryDetail itemHistoryDetail1 = new ItemHistoryDetail();
             ItemHistoryDetail itemHistoryDetail2 = new ItemHistoryDetail();
             ItemHistoryDetail itemHistoryDetail3 = new ItemHistoryDetail();
-            ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), java.sql.Date.valueOf(LocalDate.now()));
 
             itemHistoryDetail1.setAmount(1000L);
-            itemHistoryDetail1.setItemHistory(itemHistory1);
             itemHistoryDetail1.setItem(item1);
             itemHistoryDetail2.setAmount(1500L);
-            itemHistoryDetail2.setItemHistory(itemHistory1);
             itemHistoryDetail2.setItem(item2);
             itemHistoryDetail3.setAmount(3000L);
-            itemHistoryDetail3.setItemHistory(itemHistory1);
             itemHistoryDetail3.setItem(item1);
 
+            ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), java.sql.Date.valueOf(LocalDate.now()));
+            itemHistoryDetail1.setItemHistory(itemHistory1);
+            itemHistoryDetail2.setItemHistory(itemHistory1);
+            itemHistoryDetail3.setItemHistory(itemHistory1);
             itemHistoryRepository.save(itemHistory1);
         };
     }
