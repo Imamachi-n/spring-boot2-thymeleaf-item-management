@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -45,9 +46,19 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> searchItemList(Item item){
-        return itemRepository.findAll(Specification
-                .where(ItemSpecification.catId(item.getCatId()))
-                .or(ItemSpecification.itemName(item.getItemName()))
+        List<String> test = splitKeyword(item.getItemName());
+        Specification<Item> spec = splitKeyword(item.getItemName())
+                .stream()
+                .map(ItemSpecification::keyword)
+                .reduce(Specification.where(null), Specification::or);
+
+        return itemRepository.findAll(spec);
+    }
+
+    private List<String> splitKeyword(String keyword){
+        return Arrays.asList(
+                keyword.replaceAll("[\\s　]+", " ")
+                        .trim().split("\\s")
         );
     }
 }
