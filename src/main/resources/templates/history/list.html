@@ -126,12 +126,12 @@
     <!-- end of search area -->
 
     <!-- item list -->
-    <div class="card my-2">
+    <div class="card my-2" th:each="history : ${histories}">
         <div class="card-header">
             <div class="clearfix">
                 <div class="float-left">
                     <h6 class="card-title my-0">注文日</h6>
-                    <p class="card-text">2018年9月8日</p>
+                    <p class="card-text" th:text="${history.createDate}"></p>
                 </div>
                 <div class="float-right">
                     <h6 class="card-title my-0">合計</h6>
@@ -140,35 +140,14 @@
             </div>
 
         </div>
-        <ul class="list-group list-group-flush">
+        <ul class="list-group list-group-flush" th:each="historyDetail : ${history.itemHistoryDetails}">
             <li class="list-group-item">
-                <h5 class="card-title my-1">リケン ふえるわかめちゃん国内 16g </h5>
+                <h5 class="card-title my-1" th:text="${historyDetail.item.itemName}"></h5>
                 <div class="float-left">
-                    <h5 class="card-text">×1</h5>
+                    <h5 class="card-text" th:text="'×' + ${historyDetail.amount}"></h5>
                 </div>
                 <div class="float-right">
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-
-            </li>
-
-            <li class="list-group-item">
-                <h5 class="card-title my-1">ケロッグ コーンフロスティ 袋 240g </h5>
-                <div class="float-left">
-                    <h5 class="card-text">×1</h5>
-                </div>
-                <div class="float-right">
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-            </li>
-
-            <li class="list-group-item">
-                <h5 class="card-title my-1">江崎グリコ トマトプリッツ<9袋> 134g </h5>
-                <div class="float-left">
-                    <h5 class="card-text">×1</h5>
-                </div>
-                <div class="float-right">
-                    <p class="card-text text-danger">￥2,000</p>
+                    <p class="card-text text-danger" th:text="'￥' + ${historyDetail.item.price}"></p>
                 </div>
             </li>
         </ul>

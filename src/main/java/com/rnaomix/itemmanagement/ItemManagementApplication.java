@@ -71,12 +71,12 @@ public class ItemManagementApplication {
             ItemHistoryDetail itemHistoryDetail2 = new ItemHistoryDetail();
             ItemHistoryDetail itemHistoryDetail3 = new ItemHistoryDetail();
 
-            itemHistoryDetail1.setAmount(1000L);
+            itemHistoryDetail1.setAmount(2L);
             itemHistoryDetail1.setItem(item1);
-            itemHistoryDetail2.setAmount(1500L);
+            itemHistoryDetail2.setAmount(1L);
             itemHistoryDetail2.setItem(item2);
-            itemHistoryDetail3.setAmount(3000L);
-            itemHistoryDetail3.setItem(item1);
+            itemHistoryDetail3.setAmount(3L);
+            itemHistoryDetail3.setItem(item3);
 
             ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail1.setItemHistory(itemHistory1);
