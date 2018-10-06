@@ -6,5 +6,9 @@ import java.util.List;
 
 public interface HistoryService {
 
-    List<ItemHistory> getItemHistoryList();
+    List<ItemHistory> getNowItemHistoryList();
+
+    List<ItemHistory> getMonthlyItemHistoryList(String monthly);
+
+    String getNowDate();
 }

@@ -87,16 +87,16 @@
         </div>
 
         <!-- search area -->
-        <div class="float-right">
-            <form>
-                <div class="input-group my-0">
-                    <input type="text" class="form-control" placeholder="購入した物品名を入力" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-info" type="submit"><i class="fas fa-book"></i> 履歴参照</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+        <!--<div class="float-right">-->
+            <!--<form>-->
+                <!--<div class="input-group my-0">-->
+                    <!--<input type="text" class="form-control" placeholder="購入した物品名を入力" aria-label="Recipient's username" aria-describedby="basic-addon2">-->
+                    <!--<div class="input-group-append">-->
+                        <!--<button class="btn btn-outline-info" type="submit"><i class="fas fa-book"></i> 履歴参照</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
         <!-- end of search area -->
     </div>
 
@@ -104,11 +104,11 @@
 
     <!-- search area -->
     <div class="container">
-        <form>
+        <form method="post" action="/history/list" th:action="@{/history/list}">
             <div class="row">
                 <div class="col align-self-start">
                     <div class="form-group row my-0">
-                        <input type="month" class="form-control col-md-5" id="inputDate" value="2017-06" onchange="this.form.submit()">
+                        <input type="month" class="form-control col-md-5" name="monthly" id="inputDate" th:value="${monthly} ? ${monthly}" onchange="this.form.submit()">
                         <label for="inputDate" class="col-form-label col-md">に確定された注文</label>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="col align-self-end">
                     <div class="float-right">
                         <h5 class="card-title my-0">月合計</h5>
-                        <h5 class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(#aggregates.sum(histories.![totalPrice]), 0, 'COMMA', 0, 'POINT')}"></h5>
+                        <h5 class="card-text text-danger" th:text="${#aggregates.sum(histories.![totalPrice])} ? '￥' + ${#numbers.formatDecimal(#aggregates.sum(histories.![totalPrice]), 0, 'COMMA', 0, 'POINT')} : '￥0'"></h5>
                     </div>
                 </div>
             </div>
