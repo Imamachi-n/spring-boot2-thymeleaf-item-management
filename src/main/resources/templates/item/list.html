@@ -234,7 +234,7 @@
                         <td th:text="${item.itemId}" class="align-middle"></td>
                         <td th:text="${item.catId}" class="align-middle"></td>
                         <td th:text="${item.itemName}" class="align-middle"></td>
-                        <td th:text="${item.price}" class="align-middle"></td>
+                        <td th:text="'￥' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}" class="align-middle"></td>
                         <td th:text="${item.createDate}" class="align-middle"></td>
                         <td>
                             <a class="btn btn-primary btn-sm" th:href="@{/item/edit(itemId=${item.itemId})}">

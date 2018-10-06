@@ -70,6 +70,9 @@ public class ItemManagementApplication {
             ItemHistoryDetail itemHistoryDetail1 = new ItemHistoryDetail();
             ItemHistoryDetail itemHistoryDetail2 = new ItemHistoryDetail();
             ItemHistoryDetail itemHistoryDetail3 = new ItemHistoryDetail();
+            ItemHistoryDetail itemHistoryDetail4 = new ItemHistoryDetail();
+            ItemHistoryDetail itemHistoryDetail5 = new ItemHistoryDetail();
+            ItemHistoryDetail itemHistoryDetail6 = new ItemHistoryDetail();
 
             itemHistoryDetail1.setAmount(2L);
             itemHistoryDetail1.setItem(item1);
@@ -77,12 +80,27 @@ public class ItemManagementApplication {
             itemHistoryDetail2.setItem(item2);
             itemHistoryDetail3.setAmount(3L);
             itemHistoryDetail3.setItem(item3);
+            itemHistoryDetail4.setAmount(2L);
+            itemHistoryDetail4.setItem(item4);
+            itemHistoryDetail5.setAmount(1L);
+            itemHistoryDetail5.setItem(item5);
+            itemHistoryDetail6.setAmount(3L);
+            itemHistoryDetail6.setItem(item6);
 
-            ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), 5200, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail1.setItemHistory(itemHistory1);
             itemHistoryDetail2.setItemHistory(itemHistory1);
             itemHistoryDetail3.setItemHistory(itemHistory1);
             itemHistoryRepository.save(itemHistory1);
+
+            ItemHistory itemHistory2 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail4, itemHistoryDetail5), 3000, java.sql.Date.valueOf(LocalDate.now()));
+            itemHistoryDetail4.setItemHistory(itemHistory2);
+            itemHistoryDetail5.setItemHistory(itemHistory2);
+            itemHistoryRepository.save(itemHistory2);
+
+            ItemHistory itemHistory3 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail6), 3000, java.sql.Date.valueOf(LocalDate.now()));
+            itemHistoryDetail6.setItemHistory(itemHistory3);
+            itemHistoryRepository.save(itemHistory3);
         };
     }
 }

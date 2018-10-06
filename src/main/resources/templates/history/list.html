@@ -108,7 +108,7 @@
             <div class="row">
                 <div class="col align-self-start">
                     <div class="form-group row my-0">
-                        <input type="month" class="form-control col-md-5" id="inputDate">
+                        <input type="month" class="form-control col-md-5" id="inputDate" value="2017-06" onchange="this.form.submit()">
                         <label for="inputDate" class="col-form-label col-md">に確定された注文</label>
                     </div>
                 </div>
@@ -116,7 +116,7 @@
                 <div class="col align-self-end">
                     <div class="float-right">
                         <h5 class="card-title my-0">月合計</h5>
-                        <h5 class="card-text text-danger">￥2,000</h5>
+                        <h5 class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(#aggregates.sum(histories.![totalPrice]), 0, 'COMMA', 0, 'POINT')}"></h5>
                     </div>
                 </div>
             </div>
@@ -135,7 +135,7 @@
                 </div>
                 <div class="float-right">
                     <h6 class="card-title my-0">合計</h6>
-                    <p class="card-text text-danger">￥2,000</p>
+                    <p class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(history.totalPrice, 0, 'COMMA', 0, 'POINT')}"></p>
                 </div>
             </div>
 
@@ -147,7 +147,7 @@
                     <h5 class="card-text" th:text="'×' + ${historyDetail.amount}"></h5>
                 </div>
                 <div class="float-right">
-                    <p class="card-text text-danger" th:text="'￥' + ${historyDetail.item.price}"></p>
+                    <p class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(historyDetail.item.price, 0, 'COMMA', 0, 'POINT')}"></p>
                 </div>
             </li>
         </ul>
