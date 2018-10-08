@@ -57,8 +57,8 @@
 
         <ul class="navbar-nav navbar-right">
             <li class="nav-item mx-1">
-                <form  method="post" action="/search/list" th:action="@{/search/list}" th:object="${item}" class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="物品名を入力" aria-label="Search"  th:field="*{itemName}">
+                <form  method="post" action="/search/list" th:action="@{/search/list}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" name="searchItems" placeholder="物品名を入力" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                         <i class="fas fa-search"></i> 検索
                     </button>

@@ -45,9 +45,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> searchItemList(Item item){
-        List<String> test = splitKeyword(item.getItemName());
-        Specification<Item> spec = splitKeyword(item.getItemName())
+    public List<Item> searchItemList(String searchItems){
+
+        Specification<Item> spec = splitKeyword(searchItems)
                 .stream()
                 .map(ItemSpecification::keyword)
                 .reduce(Specification.where(null), Specification::or);

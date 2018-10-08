@@ -15,5 +15,5 @@ public interface ItemService {
 
     Item getItem(Integer itemId);
 
-    List<Item> searchItemList(Item item);
+    List<Item> searchItemList(String searchItems);
 }

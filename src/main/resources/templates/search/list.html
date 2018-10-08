@@ -90,9 +90,9 @@
     <!-- search area -->
     <div class="row justify-content-center">
         <div class="col-6">
-            <form method="post" action="/search/list" th:action="@{/search/list}" th:object="${item}">
+            <form method="post" action="/search/list" th:action="@{/search/list}">
                 <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" placeholder="物品名を入力" th:field="*{itemName}"/>
+                    <input type="text" name="searchItems" class="form-control" placeholder="物品名を入力" th:value="${searchItems}"/>
                     <div class="input-group-append">
                         <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i> 検索</button>
                     </div>
@@ -106,7 +106,7 @@
     <!--https://qiita.com/rubytomato@github/items/ac65c2203d16d1a1bbd7#%E6%95%B0%E5%80%A4-numbers-->
     <div class="card my-2" th:each="item : ${items}">
         <div class="card-body">
-            <form method="post" action="/cart/add" th:action="@{/cart/add}">
+            <form method="post" action="/search/add" th:action="@{/search/add}">
                 <div class="float-left">
                     <h5 class="card-title" th:text="${item.itemName}"></h5>
                     <p class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}"></p>
@@ -128,7 +128,8 @@
                             <option value="9">9</option>
                         </select>
                     </div>
-                    <input type="hidden" name="itemId" th:value="${item.itemId}">
+                    <input type="hidden" name="itemId" th:value="${item.itemId}" />
+                    <input type="hidden" name="searchItems" th:value="${searchItems}" />
                     <button class="btn btn-primary float-right mt-3" type="submit">カートに入れる</button>
                 </div>
             </form>

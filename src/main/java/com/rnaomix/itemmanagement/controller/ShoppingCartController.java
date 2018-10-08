@@ -32,15 +32,16 @@ public class ShoppingCartController {
 
     // ショッピングカート
     @PostMapping("/add")
-    public String addItemToCart(@ModelAttribute Item item,
-                                @RequestParam(name = "amount") Integer amount,
+    public String addItemToCart(@RequestParam(name = "amount") Integer amount,
                                 @RequestParam(name = "itemId") Integer itemId,
+                                @RequestParam(name = "searchItems") String searchItems,
                                 Model model){
 
         shoppingCartService.addShoppingCart(itemId, amount);
         model.addAttribute("cart", shoppingCartService.getItemsInCart());
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        System.out.println(shoppingCartService.getTotal());
-        return "redirect:/search/list";
+        model.addAttribute("searchItems", searchItems);
+        System.out.println(itemId + ": " + shoppingCartService.getTotal());
+        return "/search/list";
     }
 }
