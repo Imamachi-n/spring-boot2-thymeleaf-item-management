@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>物品管理システム - 検索</title>
+    <title>物品管理システム - カート</title>
     <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
     <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>
@@ -30,7 +30,7 @@
                 </a>
             </li>
 
-            <li class="nav-item mx-1 active">
+            <li class="nav-item mx-1">
                 <a class="nav-link" href="/search/list">
                     <i class="fas fa-search fa-lg"></i> 検索
                 </a>
@@ -57,8 +57,8 @@
 
         <ul class="navbar-nav navbar-right">
             <li class="nav-item mx-1">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="物品名を入力" aria-label="Search">
+                <form  method="post" action="/search/list" th:action="@{/search/list}" th:object="${item}" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="物品名を入力" aria-label="Search"  th:field="*{itemName}">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                         <i class="fas fa-search"></i> 検索
                     </button>
@@ -68,7 +68,7 @@
 
         <ul class="navbar-nav navbar-right">
             <li class="nav-item mx-2 active">
-                <a class="nav-link" href="/cart/list">
+                <a class="nav-link" href="#">
                     <i class="fas fa-shopping-cart fa-2x"></i>[[${cartTotal} ? ${cartTotal} : 0]]
                 </a>
             </li>
@@ -81,7 +81,7 @@
 <div class="container"><br/>
     <div class="header clearfix">
         <h3 class="text-muted">
-            <i class="fas fa-search"></i> 検索
+            <i class="fas fa-shopping-cart"></i> カート
         </h3>
     </div>
 
@@ -89,55 +89,11 @@
 
     <!-- search area -->
     <div class="row justify-content-center">
-        <div class="col-6">
-            <form method="post" action="/search/list" th:action="@{/search/list}" th:object="${item}">
-                <div class="input-group input-group-lg mb-3">
-                    <input type="text" class="form-control" placeholder="物品名を入力" th:field="*{itemName}"/>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i> 検索</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+
     </div>
     <!-- end of search area -->
 
-    <!-- item list -->
-    <!--https://qiita.com/rubytomato@github/items/ac65c2203d16d1a1bbd7#%E6%95%B0%E5%80%A4-numbers-->
-    <div class="card my-2" th:each="item : ${items}">
-        <div class="card-body">
-            <form method="post" action="/cart/add" th:action="@{/cart/add}">
-                <div class="float-left">
-                    <h5 class="card-title" th:text="${item.itemName}"></h5>
-                    <p class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}"></p>
-                </div>
-                <div class="float-right">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputNumbers">個数</label>
-                        </div>
-                        <select class="custom-select" id="inputNumbers" name="amount">
-                            <option value="1" selected>1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                        </select>
-                    </div>
-                    <input type="hidden" name="itemId" th:value="${item.itemId}">
-                    <button class="btn btn-primary float-right mt-3" type="submit">カートに入れる</button>
-                </div>
-            </form>
-        </div>
-        <!--<div class="card-footer">-->
-            <!--<button class="btn btn-primary float-right">カートに入れる</button>-->
-        <!--</div>-->
-    </div>
-    <!-- end of item list -->
+
 </div>
 <!-- end of main container -->
 
