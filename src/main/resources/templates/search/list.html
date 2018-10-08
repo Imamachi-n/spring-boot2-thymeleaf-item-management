@@ -102,6 +102,10 @@
     </div>
     <!-- end of search area -->
 
+    <!-- status -->
+    <div class="alert alert-success" th:if="${isAdded}" th:text="${isAdded}" role="alert"></div>
+    <!-- end of status -->
+
     <!-- item list -->
     <!--https://qiita.com/rubytomato@github/items/ac65c2203d16d1a1bbd7#%E6%95%B0%E5%80%A4-numbers-->
     <div class="card my-2" th:each="item : ${items}">
@@ -129,6 +133,7 @@
                         </select>
                     </div>
                     <input type="hidden" name="itemId" th:value="${item.itemId}" />
+                    <input type="hidden" name="itemName" th:value="${item.itemName}" />
                     <input type="hidden" name="searchItems" th:value="${searchItems}" />
                     <button class="btn btn-primary float-right mt-3" type="submit">カートに入れる</button>
                 </div>

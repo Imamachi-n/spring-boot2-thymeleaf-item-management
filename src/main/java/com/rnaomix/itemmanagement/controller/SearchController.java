@@ -55,6 +55,7 @@ public class SearchController {
     @PostMapping("/add")
     public String addItemToCart(@RequestParam(name = "amount") Integer amount,
                                 @RequestParam(name = "itemId") Integer itemId,
+                                @RequestParam(name = "itemName") String itemName,
                                 @RequestParam(name = "searchItems") String searchItems,
                                 Model model){
 
@@ -62,6 +63,7 @@ public class SearchController {
         model.addAttribute("cart", shoppingCartService.getItemsInCart());
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         model.addAttribute("searchItems", searchItems);
+        model.addAttribute("isAdded", "「" + itemName + "」×" + amount + "をカートに追加されました。");
 
         return searchItemList(searchItems, model);
     }
