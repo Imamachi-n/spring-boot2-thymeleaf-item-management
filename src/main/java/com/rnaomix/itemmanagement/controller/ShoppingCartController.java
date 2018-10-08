@@ -1,6 +1,7 @@
 package com.rnaomix.itemmanagement.controller;
 
 import com.rnaomix.itemmanagement.model.Item;
+import com.rnaomix.itemmanagement.model.ItemHistoryDetail;
 import com.rnaomix.itemmanagement.service.HistoryDetailService;
 import com.rnaomix.itemmanagement.service.ItemService;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
@@ -32,18 +33,19 @@ public class ShoppingCartController {
         return "/cart/list";
     }
 
-    // ショッピングカート
     @PostMapping("/add")
     public String addItemToCart(@RequestParam(name = "amount") Integer amount,
                                 @RequestParam(name = "itemId") Integer itemId,
-                                @RequestParam(name = "searchItems") String searchItems,
                                 Model model){
 
         shoppingCartService.addShoppingCart(itemId, amount);
-        model.addAttribute("cart", shoppingCartService.getItemsInCart());
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("searchItems", searchItems);
-        System.out.println(itemId + ": " + shoppingCartService.getTotal());
-        return "/search/list";
+        return "redirect:/cart/list";
+    }
+
+    @PostMapping("/delete")
+    public String deleteItemFromCart(@RequestParam(name = "itemId") Integer itemId, Model model){
+
+        shoppingCartService.removeShoppingCart(itemId);
+        return "redirect:/cart/list";
     }
 }

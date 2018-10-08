@@ -47,6 +47,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 
     @Override
     public void removeShoppingCart(Integer itemId){
-
+        cartList.remove(itemId);
     }
 }
