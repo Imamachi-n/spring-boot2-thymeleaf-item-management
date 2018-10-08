@@ -1,6 +1,7 @@
 package com.rnaomix.itemmanagement.controller;
 
 import com.rnaomix.itemmanagement.service.HistoryService;
+import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +17,17 @@ import java.util.Calendar;
 public class HistoryController {
 
     private HistoryService historyService;
+    private ShoppingCartService shoppingCartService;
 
     @Autowired
-    public HistoryController(HistoryService historyService) {
+    public HistoryController(HistoryService historyService, ShoppingCartService shoppingCartService) {
         this.historyService = historyService;
+        this.shoppingCartService = shoppingCartService;
+    }
+
+    // ショッピングカート内の物品数をSessionから取得
+    private void setCartTotal(Model model){
+        model.addAttribute("cartTotal", shoppingCartService.getTotal());
     }
 
     @GetMapping("list")
@@ -27,6 +35,7 @@ public class HistoryController {
 
         model.addAttribute("histories", historyService.getNowItemHistoryList());
         model.addAttribute("monthly", historyService.getNowDate());
+        setCartTotal(model);
         return "/history/list";
     }
 

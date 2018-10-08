@@ -3,6 +3,7 @@ package com.rnaomix.itemmanagement.controller;
 import com.rnaomix.itemmanagement.form.ItemForm;
 import com.rnaomix.itemmanagement.model.Item;
 import com.rnaomix.itemmanagement.service.ItemService;
+import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -21,10 +22,12 @@ import java.util.Set;
 public class ItemController {
 
     private ItemService itemService;
+    private ShoppingCartService shoppingCartService;
 
     @Autowired
-    public ItemController(ItemService itemService) {
+    public ItemController(ItemService itemService, ShoppingCartService shoppingCartService) {
         this.itemService = itemService;
+        this.shoppingCartService = shoppingCartService;
     }
 
     private void init(Model model){
@@ -39,11 +42,17 @@ public class ItemController {
         model.addAttribute("items", itemService.getItemList());
     }
 
+    // ショッピングカート内の物品数をSessionから取得
+    private void setCartTotal(Model model){
+        model.addAttribute("cartTotal", shoppingCartService.getTotal());
+    }
+
     @GetMapping("/list")
     public String getItems(Model model){
 
         // 初期処理
         init(model);
+        setCartTotal(model);
 
         return "item/list";
     }
