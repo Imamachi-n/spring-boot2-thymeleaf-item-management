@@ -1,6 +1,7 @@
 package com.rnaomix.itemmanagement.controller;
 
 import com.rnaomix.itemmanagement.model.Item;
+import com.rnaomix.itemmanagement.service.HistoryDetailService;
 import com.rnaomix.itemmanagement.service.ItemService;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,24 +9,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @Controller
 @RequestMapping("/cart")
 public class ShoppingCartController {
 
-    private ItemService itemService;
+    private HistoryDetailService historyDetailService;
     private ShoppingCartService shoppingCartService;
 
     @Autowired
-    public ShoppingCartController(ItemService itemService, ShoppingCartService shoppingCartService){
-        this.itemService = itemService;
+    public ShoppingCartController(HistoryDetailService historyDetailService, ShoppingCartService shoppingCartService){
+        this.historyDetailService = historyDetailService;
         this.shoppingCartService = shoppingCartService;
     }
 
     @GetMapping("list")
     public String getCart(Model model){
 
-        model.addAttribute("item", new Item());
-        model.addAttribute("cart", shoppingCartService.getItemsInCart());
+        model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         return "/cart/list";
     }

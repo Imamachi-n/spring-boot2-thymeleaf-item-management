@@ -30,6 +30,11 @@ public class ItemHistoryDetail {
 
     public ItemHistoryDetail() {}
 
+    public ItemHistoryDetail(Item item, long amount){
+        this.item = item;
+        this.amount = amount;
+    }
+
     public ItemHistoryDetail(ItemHistory itemHistory, Item item, long amount){
         this.itemHistory = itemHistory;
         this.item = item;

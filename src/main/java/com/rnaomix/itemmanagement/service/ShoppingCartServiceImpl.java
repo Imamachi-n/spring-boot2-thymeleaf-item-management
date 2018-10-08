@@ -1,15 +1,11 @@
 package com.rnaomix.itemmanagement.service;
 
-import com.rnaomix.itemmanagement.model.ItemHistoryDetail;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.SessionScope;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @SessionScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -27,6 +23,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     @Override
     public Map<Integer, Integer> getItemsInCart(){
         return Collections.unmodifiableMap(cartList);
+    }
+
+    // 編集不可能なitemIdのArrayListを返す
+    @Override
+    public List<Integer> getItemIdListInCart(){
+        return Collections.unmodifiableList(new ArrayList<>(cartList.keySet()));
     }
 
     @Override

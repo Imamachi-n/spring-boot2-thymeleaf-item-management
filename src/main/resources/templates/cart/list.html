@@ -87,11 +87,33 @@
 
     <hr/>
 
-    <!-- search area -->
-    <div class="row justify-content-center">
+    <!-- cart area -->
+    <div class="card my-2">
+        <div class="card-header">
+            <div class="clearfix">
+                <div class="float-left">
+                    <h5 class="card-title my-0">カート情報</h5>
+                </div>
+                <div class="float-right">
+                    <h6 class="card-title my-0">合計</h6>
+                    <p class="card-text text-danger" th:text="${#aggregates.sum(cart.![item.price * amount])} ? '￥' + ${#numbers.formatDecimal(#aggregates.sum(cart.![item.price * amount]), 0, 'COMMA', 0, 'POINT')} : '￥0'"></p>
+                </div>
+            </div>
 
+        </div>
+        <ul class="list-group list-group-flush" th:each="itemHistoryDetail : ${cart}">
+            <li class="list-group-item">
+                <h5 class="card-title my-1" th:text="${itemHistoryDetail.item.itemName}"></h5>
+                <div class="float-left">
+                    <h5 class="card-text" th:text="'×' + ${itemHistoryDetail.amount}"></h5>
+                </div>
+                <div class="float-right">
+                    <p class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(itemHistoryDetail.item.price, 0, 'COMMA', 0, 'POINT')}"></p>
+                </div>
+            </li>
+        </ul>
     </div>
-    <!-- end of search area -->
+    <!-- end of cart area -->
 
 
 </div>

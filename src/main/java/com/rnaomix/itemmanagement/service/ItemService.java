@@ -9,6 +9,8 @@ public interface ItemService {
 
     List<Item> getItemList();
 
+    List<Item> getItemEachList(List<Integer> itemIdList);
+
     Item saveItem(Item item);
 
     int deleteItem(List<Integer> itemIds);

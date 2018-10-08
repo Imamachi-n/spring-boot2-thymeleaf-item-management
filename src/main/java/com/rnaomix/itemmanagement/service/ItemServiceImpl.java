@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +27,15 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Item> getItemList(){
         return itemRepository.findAll();
+    }
+
+    @Override
+    public List<Item> getItemEachList(List<Integer> itemIdList){
+        List<Item> itemList = new ArrayList<>();
+        for (Integer itemId: itemIdList) {
+            itemList.add(itemRepository.findByItemId(itemId));
+        }
+        return itemList;
     }
 
     @Override
