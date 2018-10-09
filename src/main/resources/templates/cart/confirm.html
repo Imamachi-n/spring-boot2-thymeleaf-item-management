@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>物品管理システム - ユーザ管理</title>
+    <link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/webjars/font-awesome/css/all.css}" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Kosugi+Maru|Open+Sans" rel="stylesheet"/>
+    <style>
+        body {
+            font-family: 'Open Sans', 'Kosugi Maru';
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body style="padding-top: 70px">
+
+<!-- menu -->
+<div th:replace="fragments/menu :: menu(target = '')"></div>
+<!-- end of menu -->
+
+<!-- main container -->
+<div class="container"><br/>
+    <div class="header clearfix">
+        <h3 class="text-muted">
+            <i class="fas fa-shopping-cart"></i> カートの中身確認
+        </h3>
+    </div>
+
+    <hr/>
+
+    <!-- cart confirmation -->
+    <div class="card my-2">
+        <div class="card-header">
+            <div class="clearfix">
+                <div class="float-left">
+                    <h5 class="card-title">カート情報</h5>
+                </div>
+                <div class="float-right">
+                    <h6 class="card-title my-0">合計</h6>
+                    <p class="card-text text-danger" th:text="${#aggregates.sum(cart.![item.price * amount])} ? '￥' + ${#numbers.formatDecimal(#aggregates.sum(cart.![item.price * amount]), 0, 'COMMA', 0, 'POINT')} : '￥0'"></p>
+                </div>
+            </div>
+        </div>
+        <ul class="list-group list-group-flush" th:each="itemHistoryDetail : ${cart}">
+            <li class="list-group-item">
+                <h5 class="card-title my-1" th:text="${itemHistoryDetail.item.itemName}"></h5>
+                <div class="float-left">
+                    <h5 class="card-text" th:text="'×' + ${itemHistoryDetail.amount}"></h5>
+                </div>
+
+                <div class="float-right">
+                    <p class="card-text text-danger" th:text="'￥' + ${#numbers.formatDecimal(itemHistoryDetail.item.price, 0, 'COMMA', 0, 'POINT')}"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <!-- end of cart confirmation -->
+
+    <!-- purchase -->
+    <div class="float-right">
+        <form method="post" action="/cart/purchase" th:action="@{/cart/purchase}">
+            <button type="submit" class="btn btn-warning btn-lg"><i class="fas fa-credit-card"></i> 購入する</button>
+        </form>
+    </div>
+    <!-- end of purchase -->
+</div>
+<!-- end of main container -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+</body>
+</html>

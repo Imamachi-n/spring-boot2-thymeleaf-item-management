@@ -60,4 +60,20 @@ public class ShoppingCartController {
         }
         return "redirect:/cart/list";
     }
+
+    @PostMapping("/confirm")
+    public String confirmCart(Model model){
+
+        model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
+        model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        return "/cart/confirm";
+    }
+
+    @PostMapping("/purchase")
+    public String purchaseItems(Model model){
+
+        // TODO: カートの中身を保存
+        model.addAttribute("isPurchased", "物品を購入しました。");
+        return "/cart/list";
+    }
 }

@@ -29,10 +29,10 @@
 
     <hr/>
 
-    <div class="clearfix" th:unless="${isEmpty}">
+    <div class="clearfix" th:unless="${isEmpty} or ${isPurchased}">
         <div class="float-right">
             <!-- purchase -->
-            <form>
+            <form method="post" action="/cart/confirm" th:action="@{/cart/confirm}">
                 <label for="test" class="col-form-label my-0 align-middle mx-2">購入するために</label>
                 <button type="submit" id="test" class="btn btn-warning btn-lg"><i class="fas fa-credit-card"></i> レジに進む</button>
             </form>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- cart area -->
-    <div class="card my-2" th:unless="${isEmpty}">
+    <div class="card my-2" th:unless="${isEmpty} or ${isPurchased}">
         <div class="card-header">
             <div class="clearfix">
                 <div class="float-left">
@@ -99,6 +99,7 @@
 
     <!-- status -->
     <div class="alert alert-warning mt-2" th:if="${isEmpty}" th:text="${isEmpty}" role="alert"></div>
+    <div class="alert alert-success mt-2" th:if="${isPurchased}" th:text="${isPurchased}" role="alert"></div>
     <!-- end of status -->
 
 </div>
