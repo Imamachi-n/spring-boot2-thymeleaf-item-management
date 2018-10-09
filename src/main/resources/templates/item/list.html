@@ -82,198 +82,140 @@
     </style>
 </head>
 <body style="padding-top: 70px">
+
 <!-- menu -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"  id="navbarToggleExternalContent">
-        <a class="navbar-brand" href="/home">物品管理システム</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<div th:replace="fragments/menu :: menu(target = 'item')"></div>
+<!-- end of menu -->
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/home">
-                        <i class="fas fa-home fa-lg"></i> ホーム
-                        <span class="sr-only"></span>
-                    </a>
-                </li>
+<!-- main container -->
+<div class="container"><br/>
+    <div class="header clearfix">
+        <h3 class="text-muted">
+            <i class="fas fa-boxes"></i> 物品管理
+        </h3>
+    </div>
 
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/search/list">
-                        <i class="fas fa-search fa-lg"></i> 検索
-                    </a>
-                </li>
+    <hr/>
 
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/history/list">
-                        <i class="fas fa-history fa-lg"></i> 購入履歴
-                    </a>
-                </li>
+    <!-- status -->
+    <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
+    <!-- end of status -->
 
-                <li class="nav-item mx-1 active">
-                    <a class="nav-link" href="/item/list">
-                        <i class="fas fa-boxes fa-lg"></i> 物品管理
-                    </a>
-                </li>
+    <h5>入力フォーム</h5>
+    <div class="container">
+        <!-- CSRFトークンを埋め込むのに必要 th:action="@{/item/confirm}" -->
+        <!-- CSRFトークンがないと、Request method 'POST' not supportedとエラーになる -->
+        <form method="post" action="/item/list" th:action="@{/item/list}" th:object="${itemForm}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="catId">カタログID</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('catId')} ? 'is-invalid'" type="text" id="catId" size="40" placeholder="例）1234567" th:field="*{catId}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('catId')}">カタログIDは1～50文字で入力してください。</small>
+                </div>
+            </div>
 
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/user/list">
-                        <i class="fas fa-users fa-lg"></i> ユーザ管理
-                    </a>
-                </li>
-            </ul>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="catId">物品名</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('itemName')} ? 'is-invalid'" type="text" id="itemName" size="40" placeholder="例）トイレットペーパー" th:field="*{itemName}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('itemName')}">物品名は1～400文字で入力してください。</small>
+                </div>
+            </div>
 
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item mx-1">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="物品名を入力" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                            <i class="fas fa-search"></i> 検索
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="catId">価格</label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" type="text" id="price" size="40" placeholder="例）1200" th:field="*{price}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}">価格は1～10,000,000円の数字で入力してください。</small>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">登録</button>
+            <button type="reset" class="btn btn-light">リセット</button>
+        </form>
+    </div>
+
+    <br/>
+    <hr/>
+
+    <!-- status -->
+    <div class="alert alert-success" th:if="${isDeleted}" th:text="${isDeleted}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${isNotChecked}" th:text="${isNotChecked}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${deleteError}" th:text="${deleteError}" role="alert"></div>
+    <!-- end of status -->
+
+    <h5>物品一覧</h5>
+    <div class="table-responsive">
+        <form method="post" action="/item/delete" th:action="@{/item/delete}">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#exampleModal">
+                            削除
                         </button>
-                    </form>
-                </li>
-            </ul>
+                    </th>
+                    <th class="align-middle">物品ID</th>
+                    <th class="align-middle">カタログID</th>
+                    <th class="align-middle">物品名</th>
+                    <th class="align-middle">価格</th>
+                    <th class="align-middle">作成日</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td class="align-middle">
+                        <label class="customcheck">
+                            <input type="checkbox" class="checkbox align-middle" name="itemIds" th:value="${item.itemId}" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                    <td th:text="${item.itemId}" class="align-middle"></td>
+                    <td th:text="${item.catId}" class="align-middle"></td>
+                    <td th:text="${item.itemName}" class="align-middle"></td>
+                    <td th:text="'￥' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}" class="align-middle"></td>
+                    <td th:text="${item.createDate}" class="align-middle"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" th:href="@{/item/edit(itemId=${item.itemId})}">
+                            更新
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item mx-2 active">
-                    <a class="nav-link" href="/cart/list">
-                        <i class="fas fa-shopping-cart fa-2x"></i>[[${cartTotal} ? ${cartTotal} : 0]]
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- end of menu -->
-
-    <!-- main container -->
-    <div class="container"><br/>
-        <div class="header clearfix">
-            <h3 class="text-muted">
-                <i class="fas fa-boxes"></i> 物品管理
-            </h3>
-        </div>
-
-        <hr/>
-
-        <!-- status -->
-        <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
-        <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
-        <!-- end of status -->
-
-        <h5>入力フォーム</h5>
-        <div class="container">
-            <!-- CSRFトークンを埋め込むのに必要 th:action="@{/item/confirm}" -->
-            <!-- CSRFトークンがないと、Request method 'POST' not supportedとエラーになる -->
-            <form method="post" action="/item/list" th:action="@{/item/list}" th:object="${itemForm}">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="catId">カタログID</label>
-                        <input class="form-control" th:classappend="${#fields.hasErrors('catId')} ? 'is-invalid'" type="text" id="catId" size="40" placeholder="例）1234567" th:field="*{catId}"/>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('catId')}">カタログIDは1～50文字で入力してください。</small>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="catId">物品名</label>
-                        <input class="form-control" th:classappend="${#fields.hasErrors('itemName')} ? 'is-invalid'" type="text" id="itemName" size="40" placeholder="例）トイレットペーパー" th:field="*{itemName}"/>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('itemName')}">物品名は1～400文字で入力してください。</small>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="catId">価格</label>
-                        <input class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" type="text" id="price" size="40" placeholder="例）1200" th:field="*{price}"/>
-                        <small class="form-text text-danger" th:if="${#fields.hasErrors('price')}">価格は1～10,000,000円の数字で入力してください。</small>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary">登録</button>
-                <button type="reset" class="btn btn-light">リセット</button>
-            </form>
-        </div>
-
-        <br/>
-        <hr/>
-
-        <!-- status -->
-        <div class="alert alert-success" th:if="${isDeleted}" th:text="${isDeleted}" role="alert"></div>
-        <div class="alert alert-danger" th:if="${isNotChecked}" th:text="${isNotChecked}" role="alert"></div>
-        <div class="alert alert-danger" th:if="${deleteError}" th:text="${deleteError}" role="alert"></div>
-        <!-- end of status -->
-
-        <h5>物品一覧</h5>
-        <div class="table-responsive">
-            <form method="post" action="/item/delete" th:action="@{/item/delete}">
-                <table class="table table-hover">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th>
-                            <!-- Button trigger modal -->
-                            <button type="button" class="btn btn-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#exampleModal">
-                                削除
+            <!-- modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
                             </button>
-                        </th>
-                        <th class="align-middle">物品ID</th>
-                        <th class="align-middle">カタログID</th>
-                        <th class="align-middle">物品名</th>
-                        <th class="align-middle">価格</th>
-                        <th class="align-middle">作成日</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="item : ${items}">
-                        <td class="align-middle">
-                            <label class="customcheck">
-                                <input type="checkbox" class="checkbox align-middle" name="itemIds" th:value="${item.itemId}" />
-                                <span class="checkmark"></span>
-                            </label>
-                        </td>
-                        <td th:text="${item.itemId}" class="align-middle"></td>
-                        <td th:text="${item.catId}" class="align-middle"></td>
-                        <td th:text="${item.itemName}" class="align-middle"></td>
-                        <td th:text="'￥' + ${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}" class="align-middle"></td>
-                        <td th:text="${item.createDate}" class="align-middle"></td>
-                        <td>
-                            <a class="btn btn-primary btn-sm" th:href="@{/item/edit(itemId=${item.itemId})}">
-                                更新
-                            </a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-
-                <!-- modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">確認</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="modal-body">
-                                選択した物品を削除してもよろしいですか？
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
-                                <button type="submit" class="btn btn-danger">削除</button>
-                            </div>
+                        </div>
+                        <div class="modal-body">
+                            選択した物品を削除してもよろしいですか？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                            <button type="submit" class="btn btn-danger">削除</button>
                         </div>
                     </div>
                 </div>
-                <!-- end of modal-->
-            </form>
-        </div>
+            </div>
+            <!-- end of modal-->
+        </form>
     </div>
-    <!-- end of main container -->
+</div>
+<!-- end of main container -->
 
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
 </body>
 </html>

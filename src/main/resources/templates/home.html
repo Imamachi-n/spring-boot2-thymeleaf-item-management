@@ -14,160 +14,102 @@
     </style>
 </head>
 <body style="padding-top: 70px">
-    <!-- menu -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"  id="navbarToggleExternalContent">
-        <a class="navbar-brand" href="/home">物品管理システム</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
 
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item mx-1 active">
-                    <a class="nav-link" href="/home">
-                        <i class="fas fa-home fa-lg"></i> ホーム
-                        <span class="sr-only"></span>
-                    </a>
-                </li>
+<!-- menu -->
+<div th:replace="fragments/menu :: menu(target = 'home')"></div>
+<!-- end of menu -->
 
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/search/list">
-                        <i class="fas fa-search fa-lg"></i> 検索
-                    </a>
-                </li>
+<!-- main container -->
+<div class="container"><br/>
+    <!-- jumbotron -->
+    <div class="jumbotron">
+        <h1 class="display-4">物品管理にお困りですか？</h1>
+        <p class="lead">物品管理システムを使って購入する物品を管理しましょう。</p>
+        <hr class="my-4">
+        <p>まずは物品を購入してみましょう。</p>
+        <a class="btn btn-primary btn-lg" href="/search/list" role="button">物品購入へ→</a>
+    </div>
+    <!-- end of jumbotron -->
 
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/history/list">
-                        <i class="fas fa-history fa-lg"></i> 購入履歴
-                    </a>
-                </li>
+    <div class="header clearfix">
+        <h3 class="text-muted">
+            <i class="fas fa-shopping-basket"></i> 過去の購入商品
+        </h3>
+    </div>
 
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/item/list">
-                        <i class="fas fa-boxes fa-lg"></i> 物品管理
-                    </a>
-                </li>
-
-                <li class="nav-item mx-1">
-                    <a class="nav-link" href="/user/list">
-                        <i class="fas fa-users fa-lg"></i> ユーザ管理
-                    </a>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item mx-1">
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="物品名を入力" aria-label="Search">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                            <i class="fas fa-search"></i> 検索
-                        </button>
-                    </form>
-                </li>
-            </ul>
-
-            <ul class="navbar-nav navbar-right">
-                <li class="nav-item mx-2 active">
-                    <a class="nav-link" href="/cart/list">
-                        <i class="fas fa-shopping-cart fa-2x"></i>[[${cartTotal} ? ${cartTotal} : 0]]
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- end of menu -->
-
-    <!-- main container -->
-    <div class="container"><br/>
-        <!-- jumbotron -->
-        <div class="jumbotron">
-            <h1 class="display-4">物品管理にお困りですか？</h1>
-            <p class="lead">物品管理システムを使って購入する物品を管理しましょう。</p>
-            <hr class="my-4">
-            <p>まずは物品を購入してみましょう。</p>
-            <a class="btn btn-primary btn-lg" href="/search/list" role="button">物品購入へ→</a>
-        </div>
-        <!-- end of jumbotron -->
-
-        <div class="header clearfix">
-            <h3 class="text-muted">
-                <i class="fas fa-shopping-basket"></i> 過去の購入商品
-            </h3>
-        </div>
-
-        <!-- item list -->
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">リケン ふえるわかめちゃん国内 16g </h5>
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary">カートに入れる</button>
-                </div>
+    <!-- item list -->
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">リケン ふえるわかめちゃん国内 16g </h5>
+                <p class="card-text text-danger">￥2,000</p>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">ケロッグ コーンフロスティ 袋 240g </h5>
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary">カートに入れる</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">江崎グリコ トマトプリッツ<9袋> 134g </h5>
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary">カートに入れる</button>
-                </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">カートに入れる</button>
             </div>
         </div>
 
-        <div class="card-group">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">クイックルワイパー フロア用掃除道具 ハンディ 取替用</h5>
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary">カートに入れる</button>
-                </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">ケロッグ コーンフロスティ 袋 240g </h5>
+                <p class="card-text text-danger">￥2,000</p>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">キッチンクイックル つめかえ用 ジャンボパック 24枚入</h5>
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary">カートに入れる</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">エリエール ティッシュ キュート 160組×5箱 パルプ</h5>
-                    <p class="card-text text-danger">￥2,000</p>
-                </div>
-                <div class="card-footer">
-                    <button class="btn btn-primary">カートに入れる</button>
-                </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">カートに入れる</button>
             </div>
         </div>
-        <!-- end of item list -->
 
-            <hr/>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">江崎グリコ トマトプリッツ<9袋> 134g </h5>
+                <p class="card-text text-danger">￥2,000</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">カートに入れる</button>
+            </div>
         </div>
-    <!-- end of main container -->
+    </div>
 
-    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
-    <script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <script th:href="@{/webjars/font-awesome/js/all.js}"></script>
+    <div class="card-group">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">クイックルワイパー フロア用掃除道具 ハンディ 取替用</h5>
+                <p class="card-text text-danger">￥2,000</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">カートに入れる</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">キッチンクイックル つめかえ用 ジャンボパック 24枚入</h5>
+                <p class="card-text text-danger">￥2,000</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">カートに入れる</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">エリエール ティッシュ キュート 160組×5箱 パルプ</h5>
+                <p class="card-text text-danger">￥2,000</p>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary">カートに入れる</button>
+            </div>
+        </div>
+    </div>
+    <!-- end of item list -->
+
+    <hr/>
+</div>
+<!-- end of main container -->
+
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/dist/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:href="@{/webjars/font-awesome/js/all.js}"></script>
 </body>
 </html>

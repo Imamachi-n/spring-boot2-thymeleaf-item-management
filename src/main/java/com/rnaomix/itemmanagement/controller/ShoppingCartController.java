@@ -29,7 +29,14 @@ public class ShoppingCartController {
     public String getCart(Model model){
 
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        Integer itemCount = shoppingCartService.getTotal();
+        model.addAttribute("cartTotal", itemCount);
+
+        // カートの中身が空の場合
+        if(itemCount == 0){
+            model.addAttribute("isEmpty", "カートの中身が入っていません。");
+        }
+
         return "/cart/list";
     }
 
@@ -46,6 +53,11 @@ public class ShoppingCartController {
     public String deleteItemFromCart(@RequestParam(name = "itemId") Integer itemId, Model model){
 
         shoppingCartService.removeShoppingCart(itemId);
+
+        // カートの中身が空の場合
+        if(shoppingCartService.getTotal() == 0){
+            model.addAttribute("isEmpty", "カートの中身が入っていません。");
+        }
         return "redirect:/cart/list";
     }
 }

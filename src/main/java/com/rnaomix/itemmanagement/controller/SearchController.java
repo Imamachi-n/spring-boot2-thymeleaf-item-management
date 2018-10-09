@@ -63,7 +63,7 @@ public class SearchController {
         model.addAttribute("cart", shoppingCartService.getItemsInCart());
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         model.addAttribute("searchItems", searchItems);
-        model.addAttribute("isAdded", "「" + itemName + "」×" + amount + "をカートに追加されました。");
+        model.addAttribute("isAdded", "「" + itemName + "」×" + amount + "をカートに追加しました。");
 
         return searchItemList(searchItems, model);
     }
