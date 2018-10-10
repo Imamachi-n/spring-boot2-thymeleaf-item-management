@@ -9,4 +9,5 @@ import java.util.Map;
 public interface HistoryDetailService {
 
     List<ItemHistoryDetail> createItemHistory(Map<Integer, Integer> cartList);
+
 }

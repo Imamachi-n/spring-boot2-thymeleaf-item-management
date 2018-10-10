@@ -10,17 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.LongStream;
 
 @Service
 @Transactional(readOnly = true)
 public class HistoryDetailServiceImpl implements HistoryDetailService{
 
-    private ItemHistoryDetailRepository itemHistoryDetailRepository;
     private ItemService itemService;
 
     @Autowired
-    public HistoryDetailServiceImpl(ItemHistoryDetailRepository itemHistoryDetailRepository, ItemService itemService){
-        this.itemHistoryDetailRepository = itemHistoryDetailRepository;
+    public HistoryDetailServiceImpl(ItemService itemService){
         this.itemService = itemService;
     }
 
