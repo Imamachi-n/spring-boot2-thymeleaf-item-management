@@ -16,4 +16,6 @@ public interface ShoppingCartService {
     void addShoppingCart(Integer itemId, Integer amount);
 
     void removeShoppingCart(Integer itemId);
+
+    void clearCart();
 }

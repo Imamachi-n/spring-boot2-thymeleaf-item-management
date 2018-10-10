@@ -73,6 +73,7 @@ public class ShoppingCartController {
     public String purchaseItems(Model model){
 
         // TODO: カートの中身を保存
+        shoppingCartService.clearCart();
         model.addAttribute("isPurchased", "物品を購入しました。");
         return "/cart/list";
     }

@@ -49,4 +49,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     public void removeShoppingCart(Integer itemId){
         cartList.remove(itemId);
     }
+
+    @Override
+    public void clearCart(){
+        cartList.clear();
+    }
 }
