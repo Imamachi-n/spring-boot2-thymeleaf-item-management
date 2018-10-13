@@ -35,11 +35,13 @@ public class ItemController {
         model.addAttribute("items", itemService.getItemList());
         // フォーム内容のオブジェクトを用意
         model.addAttribute("itemForm", new ItemForm());
+        model.addAttribute("cartTotal", shoppingCartService.getTotal());
     }
 
     private void initGetItems(Model model){
         // 全件検索結果をリクエストスコープで渡す
         model.addAttribute("items", itemService.getItemList());
+        model.addAttribute("cartTotal", shoppingCartService.getTotal());
     }
 
     // ショッピングカート内の物品数をSessionから取得
@@ -52,7 +54,6 @@ public class ItemController {
 
         // 初期処理
         init(model);
-        setCartTotal(model);
 
         return "item/list";
     }
@@ -68,6 +69,7 @@ public class ItemController {
         }
 
         model.addAttribute("itemForm", itemForm);
+        setCartTotal(model);
         return "item/confirm";
     }
 
@@ -106,6 +108,7 @@ public class ItemController {
         Item item = itemService.getItem(itemId);
         ItemForm itemForm = new ItemForm(itemId, item.getCatId(), item.getItemName(), item.getPrice(), item.getVersion());
         model.addAttribute("itemForm", itemForm);
+        setCartTotal(model);
         return "item/edit";
     }
 
@@ -122,6 +125,7 @@ public class ItemController {
         // 入力エラーが存在する場合
         if (result.hasErrors()) {
             model.addAttribute("itemId", itemForm.getItemId());
+            setCartTotal(model);
             return "/item/edit";
         }
 
