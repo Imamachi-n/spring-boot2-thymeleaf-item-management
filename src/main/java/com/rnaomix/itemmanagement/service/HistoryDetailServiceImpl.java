@@ -17,10 +17,12 @@ import java.util.stream.LongStream;
 public class HistoryDetailServiceImpl implements HistoryDetailService{
 
     private ItemService itemService;
+    private ItemHistoryDetailRepository itemHistoryDetailRepository;
 
     @Autowired
-    public HistoryDetailServiceImpl(ItemService itemService){
+    public HistoryDetailServiceImpl(ItemService itemService, ItemHistoryDetailRepository itemHistoryDetailRepository) {
         this.itemService = itemService;
+        this.itemHistoryDetailRepository = itemHistoryDetailRepository;
     }
 
     @Override
@@ -32,5 +34,20 @@ public class HistoryDetailServiceImpl implements HistoryDetailService{
         }
 
         return itemHistoryDetails;
+    }
+
+    @Override
+    public List<ItemHistoryDetail> getLatest12(){
+        List<Item> test = new ArrayList<>();
+        List<ItemHistoryDetail> result = new ArrayList<>();
+        itemHistoryDetailRepository.findFirst9ByOrderByOrderDetailIdDesc()
+            .forEach(i -> {
+                if(!test.contains(i.getItem())){
+                    test.add(i.getItem());
+                    result.add(i);
+                }
+        });
+
+        return result;
     }
 }

@@ -10,4 +10,5 @@ public interface HistoryDetailService {
 
     List<ItemHistoryDetail> createItemHistory(Map<Integer, Integer> cartList);
 
+    List<ItemHistoryDetail> getLatest12();
 }
