@@ -1,11 +1,14 @@
 package com.rnaomix.itemmanagement.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
 @Table(name = "role")
 public class Role {
 
@@ -20,4 +23,11 @@ public class Role {
 
     @Column(name = "role")
     private RoleName role;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+
+    public Role(RoleName role) {
+        this.role = role;
+    }
 }

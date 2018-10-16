@@ -42,9 +42,21 @@ public class User {
 
     public User(){}
 
-    public User(String username, String password, Set<Role> roles){
+    public User(String username, String password, String email, Set<Role> roles){
         this.username = username;
         this.password = password;
+        this.email = email;
         this.roles = roles;
+    }
+
+    public User(String username, String password, String email){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(String username, String password){
+        this.username = username;
+        this.password = password;
     }
 }

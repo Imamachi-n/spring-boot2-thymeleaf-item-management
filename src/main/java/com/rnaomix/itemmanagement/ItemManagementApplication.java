@@ -1,12 +1,11 @@
 package com.rnaomix.itemmanagement;
 
-import com.rnaomix.itemmanagement.model.Item;
-import com.rnaomix.itemmanagement.model.ItemHistory;
-import com.rnaomix.itemmanagement.model.ItemHistoryDetail;
-import com.rnaomix.itemmanagement.model.User;
+import com.rnaomix.itemmanagement.model.*;
 import com.rnaomix.itemmanagement.repository.ItemHistoryRepository;
 import com.rnaomix.itemmanagement.repository.ItemRepository;
+import com.rnaomix.itemmanagement.repository.RoleRepository;
 import com.rnaomix.itemmanagement.repository.UserRepository;
+import com.rnaomix.itemmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -15,20 +14,23 @@ import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 @SpringBootApplication
 public class ItemManagementApplication {
 
-    private UserRepository userRepository;
     private ItemRepository itemRepository;
     private ItemHistoryRepository itemHistoryRepository;
+    private UserService userService;
+    private RoleRepository roleRepository;
 
     @Autowired
-    public ItemManagementApplication(UserRepository userRepository, ItemRepository itemRepository, ItemHistoryRepository itemHistoryRepository){
-        this.userRepository = userRepository;
+    public ItemManagementApplication(ItemRepository itemRepository, ItemHistoryRepository itemHistoryRepository, UserService userService, RoleRepository roleRepository) {
         this.itemRepository = itemRepository;
         this.itemHistoryRepository = itemHistoryRepository;
+        this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     public static void main(String[] args) {
@@ -39,11 +41,18 @@ public class ItemManagementApplication {
     @Bean
     CommandLineRunner runner(){
         return args -> {
+            // Add Role
+            Role role1 = new Role(Role.RoleName.ADMIN);
+            Role role2 = new Role(Role.RoleName.USER);
+
             // Add users and save these to DB
-            User user1 = new User("imamachi", "password", User.Role.USER);
-            User user2 = new User("admin", "password", User.Role.ADMIN);
-            userRepository.save(user1);
-            userRepository.save(user2);
+            User user1 = new User("imamachi", "password", "test@gmail.com");
+            User user2 = new User("admin", "password", "test@gmail.com");
+            role1.setUsers(new HashSet<>(Arrays.asList(user2)));
+            role2.setUsers(new HashSet<>(Arrays.asList(user1)));
+            userService.saveUser(user1, false);
+            userService.saveUser(user2, true);
+            User user = userService.findUserByUsername("imamachi");
 
             // Add items and save these to DB
             Item item1 = new Item("S001", "アサヒ ウィルキンソン ジンジャエール 500ml×3本", 1000L);
@@ -87,18 +96,18 @@ public class ItemManagementApplication {
             itemHistoryDetail6.setAmount(3L);
             itemHistoryDetail6.setItem(item6);
 
-            ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), 5200, java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory1 = new ItemHistory(user, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), 5200, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail1.setItemHistory(itemHistory1);
             itemHistoryDetail2.setItemHistory(itemHistory1);
             itemHistoryDetail3.setItemHistory(itemHistory1);
             itemHistoryRepository.save(itemHistory1);
 
-            ItemHistory itemHistory2 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail4, itemHistoryDetail5), 3000, java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory2 = new ItemHistory(user, "test1", Arrays.asList(itemHistoryDetail4, itemHistoryDetail5), 3000, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail4.setItemHistory(itemHistory2);
             itemHistoryDetail5.setItemHistory(itemHistory2);
             itemHistoryRepository.save(itemHistory2);
 
-            ItemHistory itemHistory3 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail6), 3000, java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory3 = new ItemHistory(user, "test1", Arrays.asList(itemHistoryDetail6), 3000, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail6.setItemHistory(itemHistory3);
             itemHistoryRepository.save(itemHistory3);
         };

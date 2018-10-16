@@ -10,5 +10,5 @@ public interface UserService {
 
     User findUserByUsername(String username);
 
-    void saveUser(User user);
+    void saveUser(User user, boolean isAdmin);
 }

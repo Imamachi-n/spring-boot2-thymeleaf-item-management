@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -44,11 +42,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUser(User user){
+    @Transactional
+    public void saveUser(User user, boolean isAdmin){
         // BCryptで暗号化してパスワードとして保存
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Role userRole = roleRepository.findByRole(Role.RoleName.ADMIN);
-        user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+
+        if (isAdmin){
+//            Role adminRole = new Role(Role.RoleName.ADMIN);
+//            Role userRole = new Role(Role.RoleName.USER);
+//            user.setRoles(new HashSet<>(Arrays.asList(adminRole, userRole)));
+            user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN))));
+        }else{
+            user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER))));
+        }
+//        user.setRoles(new HashSet<>(roleRepository.findAll()));
+
         userRepository.save(user);
     }
 }

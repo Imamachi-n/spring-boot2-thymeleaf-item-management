@@ -26,7 +26,7 @@
     <br>
 
     <div class="row justify-content-center">
-        <form method="post" action="/login" th:action="@{/item/list}">
+        <form method="post" action="/login/index" th:action="@{/login/index}">
             <div class="header clearfix">
                 <h3 class="text-muted text-center">ログイン</h3>
             </div>
@@ -35,8 +35,8 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="user">ユーザ名</label>
-                    <input class="form-control" type="text" id="user" size="40" placeholder="例）Taro"/>
+                    <label for="username">ユーザ名</label>
+                    <input class="form-control" type="text" id="username" size="40" placeholder="例）Taro"/>
                 </div>
             </div>
 
