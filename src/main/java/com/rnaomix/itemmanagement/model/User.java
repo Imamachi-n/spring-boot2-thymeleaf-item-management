@@ -8,6 +8,8 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 @Entity
@@ -25,8 +27,7 @@ public class User {
     @NotEmpty(message = "ユーザ名を入力してください。")
     private String username;
 
-    @Column(length = 20, nullable = false)
-    @Length(min = 6, message = "6文字以上のパスワードを入力してください。")
+    @Column(nullable = false)
     @NotEmpty(message = "パスワードを入力してください。")
     private String password;
 
@@ -35,10 +36,10 @@ public class User {
     @NotEmpty(message = "メールアドレスを入力してください。")
     private String email;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private Collection<Role> roles;
 
     public User(){}
 

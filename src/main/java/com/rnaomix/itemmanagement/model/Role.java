@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
@@ -13,7 +14,7 @@ import java.util.Set;
 public class Role {
 
     public enum RoleName {
-        USER, ADMIN
+        USER, MANAGER, ADMIN
     }
 
     @Id
@@ -25,7 +26,7 @@ public class Role {
     private RoleName role;
 
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Collection<User> users;
 
     public Role(RoleName role) {
         this.role = role;

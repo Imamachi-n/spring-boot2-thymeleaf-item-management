@@ -11,6 +11,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -22,15 +23,21 @@ public class ItemManagementApplication {
 
     private ItemRepository itemRepository;
     private ItemHistoryRepository itemHistoryRepository;
-    private UserService userService;
+    private UserRepository userRepository;
     private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public ItemManagementApplication(ItemRepository itemRepository, ItemHistoryRepository itemHistoryRepository, UserService userService, RoleRepository roleRepository) {
+    public ItemManagementApplication(ItemRepository itemRepository,
+                                     ItemHistoryRepository itemHistoryRepository,
+                                     UserRepository userRepository,
+                                     RoleRepository roleRepository,
+                                     PasswordEncoder passwordEncoder) {
         this.itemRepository = itemRepository;
         this.itemHistoryRepository = itemHistoryRepository;
-        this.userService = userService;
+        this.userRepository = userRepository;
         this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public static void main(String[] args) {
@@ -42,17 +49,21 @@ public class ItemManagementApplication {
     CommandLineRunner runner(){
         return args -> {
             // Add Role
-            Role role1 = new Role(Role.RoleName.ADMIN);
-            Role role2 = new Role(Role.RoleName.USER);
+            createRoleIfNotFound(Role.RoleName.ADMIN);
+            createRoleIfNotFound(Role.RoleName.MANAGER);
+            createRoleIfNotFound(Role.RoleName.USER);
+            Role adminRole = roleRepository.findByRole(Role.RoleName.ADMIN);
+            Role adminUser = roleRepository.findByRole(Role.RoleName.USER);
 
             // Add users and save these to DB
             User user1 = new User("imamachi", "password", "test@gmail.com");
             User user2 = new User("admin", "password", "test@gmail.com");
-            role1.setUsers(new HashSet<>(Arrays.asList(user2)));
-            role2.setUsers(new HashSet<>(Arrays.asList(user1)));
-            userService.saveUser(user1, false);
-            userService.saveUser(user2, true);
-            User user = userService.findUserByUsername("imamachi");
+            user1.setPassword(passwordEncoder.encode(user1.getPassword()));
+            user2.setPassword(passwordEncoder.encode(user2.getPassword()));
+            user1.setRoles(Arrays.asList(adminUser));
+            user2.setRoles(Arrays.asList(adminRole, adminUser));
+            userRepository.save(user1);
+            userRepository.save(user2);
 
             // Add items and save these to DB
             Item item1 = new Item("S001", "アサヒ ウィルキンソン ジンジャエール 500ml×3本", 1000L);
@@ -96,20 +107,29 @@ public class ItemManagementApplication {
             itemHistoryDetail6.setAmount(3L);
             itemHistoryDetail6.setItem(item6);
 
-            ItemHistory itemHistory1 = new ItemHistory(user, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), 5200, java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), 5200, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail1.setItemHistory(itemHistory1);
             itemHistoryDetail2.setItemHistory(itemHistory1);
             itemHistoryDetail3.setItemHistory(itemHistory1);
             itemHistoryRepository.save(itemHistory1);
 
-            ItemHistory itemHistory2 = new ItemHistory(user, "test1", Arrays.asList(itemHistoryDetail4, itemHistoryDetail5), 3000, java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory2 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail4, itemHistoryDetail5), 3000, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail4.setItemHistory(itemHistory2);
             itemHistoryDetail5.setItemHistory(itemHistory2);
             itemHistoryRepository.save(itemHistory2);
 
-            ItemHistory itemHistory3 = new ItemHistory(user, "test1", Arrays.asList(itemHistoryDetail6), 3000, java.sql.Date.valueOf(LocalDate.now()));
+            ItemHistory itemHistory3 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail6), 3000, java.sql.Date.valueOf(LocalDate.now()));
             itemHistoryDetail6.setItemHistory(itemHistory3);
             itemHistoryRepository.save(itemHistory3);
         };
+    }
+
+    private Role createRoleIfNotFound(Role.RoleName roleName){
+        Role role = roleRepository.findByRole(roleName);
+        if (role == null) {
+            role = new Role(roleName);
+            roleRepository.save(role);
+        }
+        return role;
     }
 }

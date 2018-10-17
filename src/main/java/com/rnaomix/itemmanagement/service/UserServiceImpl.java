@@ -51,9 +51,9 @@ public class UserServiceImpl implements UserService {
 //            Role adminRole = new Role(Role.RoleName.ADMIN);
 //            Role userRole = new Role(Role.RoleName.USER);
 //            user.setRoles(new HashSet<>(Arrays.asList(adminRole, userRole)));
-            user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN))));
+            user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN)));
         }else{
-            user.setRoles(new HashSet<>(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER))));
+            user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER)));
         }
 //        user.setRoles(new HashSet<>(roleRepository.findAll()));
 
