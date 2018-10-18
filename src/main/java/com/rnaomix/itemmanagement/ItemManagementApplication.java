@@ -56,8 +56,8 @@ public class ItemManagementApplication {
             Role adminUser = roleRepository.findByRole(Role.RoleName.USER);
 
             // Add users and save these to DB
-            User user1 = new User("imamachi", "password", "test@gmail.com");
-            User user2 = new User("admin", "password", "test@gmail.com");
+            User user1 = new User("imamachi", "password", "imamachi@gmail.com");
+            User user2 = new User("admin", "password", "admin@gmail.com");
             user1.setPassword(passwordEncoder.encode(user1.getPassword()));
             user2.setPassword(passwordEncoder.encode(user2.getPassword()));
             user1.setRoles(Arrays.asList(adminUser));
