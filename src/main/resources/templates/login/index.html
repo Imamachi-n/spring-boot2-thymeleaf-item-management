@@ -33,21 +33,31 @@
 
             <hr/>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="username">ユーザ名</label>
+            <!-- status -->
+            <div class="alert alert-danger" th:if="${error}" role="alert">
+                ユーザ名・パスワードが間違っています。
+            </div>
+            <!-- end of status -->
+
+            <div class="form-group row">
+                <label for="username" class="col-sm-3 col-form-label">ユーザ名</label>
+                <div class="col-sm-9">
                     <input class="form-control" type="text" id="username" size="40" placeholder="例）Taro"/>
                 </div>
             </div>
 
-            <div class="form-row">
-                <div class="form-group">
-                    <label for="password">パスワード</label>
+            <div class="form-group row">
+                <label for="password" class="col-sm-3 col-form-label">パスワード</label>
+                <div class="col-sm-9">
                     <input class="form-control" type="password" id="password" size="40" placeholder="例）password"/>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary float-right">ログイン</button>
+            <div class="row justify-content-end">
+                <div class="col-sm-9">
+                    <button type="submit" class="btn btn-primary float-right btn-block">ログイン</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>

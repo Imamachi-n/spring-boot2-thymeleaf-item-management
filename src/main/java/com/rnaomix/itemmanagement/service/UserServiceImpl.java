@@ -48,14 +48,11 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         if (isAdmin){
-//            Role adminRole = new Role(Role.RoleName.ADMIN);
-//            Role userRole = new Role(Role.RoleName.USER);
-//            user.setRoles(new HashSet<>(Arrays.asList(adminRole, userRole)));
-            user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN)));
+            user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN),
+                                        roleRepository.findByRole(Role.RoleName.USER)));
         }else{
             user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER)));
         }
-//        user.setRoles(new HashSet<>(roleRepository.findAll()));
 
         userRepository.save(user);
     }

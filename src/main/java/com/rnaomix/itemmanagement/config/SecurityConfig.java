@@ -36,11 +36,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 認可の設定
         http.authorizeRequests()
                 .antMatchers("/login/**").permitAll()  // loginは全ユーザーアクセス許可
+                .antMatchers("/h2-console/**").permitAll()  // FIXME: H2データベースは全ユーザーアクセス許可
                 .anyRequest().authenticated()  // それ以外へのアクセスは認証が必須
                 .and()
         // ログイン設定
             .formLogin()
-                .loginProcessingUrl("/login")    // 認証処理のパス
+                .loginProcessingUrl("/login/index")    // 認証処理のパス
                 .loginPage("/login/index")    // ログインフォーム表示用のパス
 //                .failureHandler(new SimpleUrlAuthenticationFailureHandler())    // 認証失敗時
                 .failureUrl("/login/index?error=true") // 認証失敗時のパス
