@@ -55,8 +55,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         user2.setPassword(passwordEncoder.encode(user2.getPassword()));
         user1.setRoles(Arrays.asList(userRole));
         user2.setRoles(Arrays.asList(adminRole, userRole));
-//        adminRole.setUsers(Arrays.asList(user2));
-//        userRole.setUsers(Arrays.asList(user1));
+        adminRole.setUsers(Arrays.asList(user2));
+        userRole.setUsers(Arrays.asList(user1));
         userRepository.save(user1);
         userRepository.save(user2);
 
@@ -103,18 +103,18 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         itemHistoryDetail6.setItem(item6);
 
         ItemHistory itemHistory1 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail1, itemHistoryDetail2, itemHistoryDetail3), 5200, java.sql.Date.valueOf(LocalDate.now()));
-//        itemHistoryDetail1.setItemHistory(itemHistory1);
-//        itemHistoryDetail2.setItemHistory(itemHistory1);
-//        itemHistoryDetail3.setItemHistory(itemHistory1);
+        itemHistoryDetail1.setItemHistory(itemHistory1);
+        itemHistoryDetail2.setItemHistory(itemHistory1);
+        itemHistoryDetail3.setItemHistory(itemHistory1);
         itemHistoryRepository.save(itemHistory1);
 
         ItemHistory itemHistory2 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail4, itemHistoryDetail5), 3000, java.sql.Date.valueOf(LocalDate.now()));
-//        itemHistoryDetail4.setItemHistory(itemHistory2);
-//        itemHistoryDetail5.setItemHistory(itemHistory2);
+        itemHistoryDetail4.setItemHistory(itemHistory2);
+        itemHistoryDetail5.setItemHistory(itemHistory2);
         itemHistoryRepository.save(itemHistory2);
 
         ItemHistory itemHistory3 = new ItemHistory(user1, "test1", Arrays.asList(itemHistoryDetail6), 3000, java.sql.Date.valueOf(LocalDate.now()));
-//        itemHistoryDetail6.setItemHistory(itemHistory3);
+        itemHistoryDetail6.setItemHistory(itemHistory3);
         itemHistoryRepository.save(itemHistory3);
 
         alreadySetup = true;
