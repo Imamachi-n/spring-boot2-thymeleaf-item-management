@@ -5,6 +5,8 @@ import com.rnaomix.itemmanagement.model.ItemHistoryDetail;
 import com.rnaomix.itemmanagement.model.User;
 import com.rnaomix.itemmanagement.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -77,15 +79,14 @@ public class ShoppingCartController {
     @PostMapping("/purchase")
     public String purchaseItems(Model model){
 
-        // FIXME: USER
-        Optional<User> user1 = userService.getUserById(1);
+        // FIXME: 戻り値Nullの処理を考慮するべき
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(auth.getName());
 
-        user1.ifPresent(user -> {
             // カートの中身を保存
             Map<Integer, Integer> test = shoppingCartService.getItemsInCart();
             historyService.saveItemHistory(user, historyDetailService.createItemHistory(test));
             shoppingCartService.clearCart();
-        });
 
         model.addAttribute("isPurchased", "物品を購入しました。");
         return "/cart/list";

@@ -63,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 認証するユーザーを設定する
+        // 認証に使うServiceクラス（UserDetailsServiceの実装クラス）を設定する
         auth.userDetailsService(userDetailsServiceImpl)
                 // 入力値をBCryptでハッシュ化した値でパスワード認証を行う
                 .passwordEncoder(passwordEncoder());
