@@ -47,7 +47,7 @@
         </ul>
 
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item mx-1">
+            <li class="nav-item mx-1 mr-2">
                 <form method="post" action="/search/list" th:action="@{/search/list}" class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" name="searchItems" placeholder="物品名を入力" aria-label="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
@@ -58,15 +58,33 @@
         </ul>
 
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item mx-2 active">
-                <a class="nav-link" href="/cart/list">
+            <li class="nav-item ml-3">
+                <div class="text-light mb-0">
+                    <small>ようこそ<br></small>
+                    [[${username}]]さん
+                </div>
+            </li>
+        </ul>
+
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item mx-1 active">
+                <a class="nav-link" href="/cart/list" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="カート確認">
                     <i class="fas fa-shopping-cart fa-2x"></i>
                     <span class="badge" th:classappend="${cartTotal == 0 ? 'badge-secondary' : 'badge-danger'}">[[${cartTotal} ? ${cartTotal} : 0]]</span>
                 </a>
             </li>
         </ul>
+
+        <ul class="navbar-nav navbar-right">
+            <li class="nav-item mx-1 active">
+                <a class="nav-link" href="/logout" title="" data-placement="bottom" data-toggle="tooltip" data-original-title="ログアウト" >
+                    <i class="fas fa-sign-out-alt fa-2x"></i>
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
+
 <!-- end of menu -->
 </body>
 </html>

@@ -7,6 +7,7 @@ import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,12 +37,14 @@ public class ItemController {
         // フォーム内容のオブジェクトを用意
         model.addAttribute("itemForm", new ItemForm());
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     private void initGetItems(Model model){
         // 全件検索結果をリクエストスコープで渡す
         model.addAttribute("items", itemService.getItemList());
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     // ショッピングカート内の物品数をSessionから取得

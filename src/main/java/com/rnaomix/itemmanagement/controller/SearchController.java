@@ -4,6 +4,7 @@ import com.rnaomix.itemmanagement.model.Item;
 import com.rnaomix.itemmanagement.service.ItemService;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ public class SearchController {
     // ショッピングカート内の物品数をSessionから取得
     private void setCartTotal(Model model){
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     // 初期画面

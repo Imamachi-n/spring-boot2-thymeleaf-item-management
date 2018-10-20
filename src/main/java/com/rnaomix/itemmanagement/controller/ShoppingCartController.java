@@ -38,6 +38,7 @@ public class ShoppingCartController {
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
         Integer itemCount = shoppingCartService.getTotal();
         model.addAttribute("cartTotal", itemCount);
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
 
         // カートの中身が空の場合
         if(itemCount == 0){
@@ -73,6 +74,7 @@ public class ShoppingCartController {
 
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
         return "/cart/confirm";
     }
 
@@ -89,6 +91,7 @@ public class ShoppingCartController {
             shoppingCartService.clearCart();
 
         model.addAttribute("isPurchased", "物品を購入しました。");
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
         return "/cart/list";
     }
 }
