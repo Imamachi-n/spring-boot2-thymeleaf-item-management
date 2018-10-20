@@ -4,6 +4,7 @@ import com.rnaomix.itemmanagement.service.HistoryDetailService;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,9 @@ public class HomeController {
     private void setCartTotal(Model model){
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     @GetMapping("")
@@ -41,8 +45,6 @@ public class HomeController {
                     + a.getItem().getItemName() + " : "
                     + a.getItem().getPrice());
         });
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth.getName());
 
         setCartTotal(model);
         return "home";

@@ -1,5 +1,6 @@
 package com.rnaomix.itemmanagement.config;
 
+import com.rnaomix.itemmanagement.model.Role;
 import com.rnaomix.itemmanagement.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,7 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 認可の設定
         http.authorizeRequests()
                 .antMatchers("/login/**").permitAll()  // loginは全ユーザーアクセス許可
-                .antMatchers("/h2-console/**").permitAll()  // FIXME: H2データベースは全ユーザーアクセス許可
+//                .antMatchers("/h2-console/**").permitAll()  // H2データベースは全ユーザーアクセス許可
+                .antMatchers("/item/**").hasRole(Role.RoleName.ADMIN.name())
+                .antMatchers("/user/**").hasRole(Role.RoleName.ADMIN.name())
                 .anyRequest().authenticated()  // それ以外へのアクセスは認証が必須
                 .and()
         // ログイン設定
@@ -53,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl("/login/error") // 認証失敗時のURL
                 .usernameParameter("username")  // ユーザ名のリクエストパラメータ
                 .passwordParameter("password")    // パスワードのリクエストパラメータ
-                .permitAll()    // FIXME: すべてのユーザにアクセス権を与える
+                .permitAll()
                 .and()
         // ログアウト設定
             .logout()

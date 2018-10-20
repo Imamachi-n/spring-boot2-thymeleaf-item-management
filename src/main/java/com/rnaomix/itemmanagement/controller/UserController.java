@@ -2,6 +2,7 @@ package com.rnaomix.itemmanagement.controller;
 
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,9 @@ public class UserController {
     private void setCartTotal(Model model){
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     @GetMapping("list")

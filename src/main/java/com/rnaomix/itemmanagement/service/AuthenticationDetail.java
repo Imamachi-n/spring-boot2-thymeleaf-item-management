@@ -18,7 +18,7 @@ public class AuthenticationDetail extends User {
                 true,   // アカウントの資格情報が有効期限切れでないかどうか
                 true,   // アカウントがロックされていないかどうか
                 user.getRoles().stream()
-                    .map(role -> new SimpleGrantedAuthority(role.getRole().name()))
+                    .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().name()))
                     .collect(Collectors.toList())   // 認可情報のリスト
         );
     }

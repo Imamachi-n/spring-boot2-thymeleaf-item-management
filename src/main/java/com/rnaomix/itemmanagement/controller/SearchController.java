@@ -4,6 +4,7 @@ import com.rnaomix.itemmanagement.model.Item;
 import com.rnaomix.itemmanagement.service.ItemService;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,10 +29,13 @@ public class SearchController {
     private void setCartTotal(Model model){
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     // 初期画面
-    @GetMapping("/list")
+    @GetMapping({"", "/list"})
     public String getItemList(Model model){
 
         model.addAttribute("items", itemService.getItemList());

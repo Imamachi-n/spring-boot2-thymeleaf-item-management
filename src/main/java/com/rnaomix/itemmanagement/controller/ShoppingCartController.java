@@ -6,6 +6,7 @@ import com.rnaomix.itemmanagement.model.User;
 import com.rnaomix.itemmanagement.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +33,16 @@ public class ShoppingCartController {
         this.userService = userService;
     }
 
-    @GetMapping("list")
+    @GetMapping({"", "/list"})
     public String getCart(Model model){
 
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
         Integer itemCount = shoppingCartService.getTotal();
         model.addAttribute("cartTotal", itemCount);
         model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
 
         // カートの中身が空の場合
         if(itemCount == 0){
@@ -75,6 +79,9 @@ public class ShoppingCartController {
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
         model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
         return "/cart/confirm";
     }
 
@@ -92,6 +99,9 @@ public class ShoppingCartController {
 
         model.addAttribute("isPurchased", "物品を購入しました。");
         model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
         return "/cart/list";
     }
 }

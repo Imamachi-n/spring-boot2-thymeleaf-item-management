@@ -7,6 +7,7 @@ import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,23 +37,25 @@ public class ItemController {
         model.addAttribute("items", itemService.getItemList());
         // フォーム内容のオブジェクトを用意
         model.addAttribute("itemForm", new ItemForm());
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        setCartTotal(model);
     }
 
     private void initGetItems(Model model){
         // 全件検索結果をリクエストスコープで渡す
         model.addAttribute("items", itemService.getItemList());
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        setCartTotal(model);
     }
 
     // ショッピングカート内の物品数をSessionから取得
     private void setCartTotal(Model model){
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
+        model.addAttribute("auth",
+                SecurityContextHolder.getContext().getAuthentication()
+                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
-    @GetMapping("/list")
+    @GetMapping({"", "/list"})
     public String getItems(Model model){
 
         // 初期処理
