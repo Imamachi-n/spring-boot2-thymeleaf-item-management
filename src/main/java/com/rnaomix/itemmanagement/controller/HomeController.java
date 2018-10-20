@@ -28,6 +28,7 @@ public class HomeController {
     // ショッピングカート内の物品数をSessionから取得
     private void setCartTotal(Model model){
         model.addAttribute("cartTotal", shoppingCartService.getTotal());
+        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @GetMapping("")

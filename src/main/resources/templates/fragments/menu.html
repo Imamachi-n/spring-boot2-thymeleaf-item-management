@@ -60,7 +60,8 @@
         <ul class="navbar-nav navbar-right">
             <li class="nav-item mx-2 active">
                 <a class="nav-link" href="/cart/list">
-                    <i class="fas fa-shopping-cart fa-2x"></i>[[${cartTotal} ? ${cartTotal} : 0]]
+                    <i class="fas fa-shopping-cart fa-2x"></i>
+                    <span class="badge" th:classappend="${cartTotal == 0 ? 'badge-secondary' : 'badge-danger'}">[[${cartTotal} ? ${cartTotal} : 0]]</span>
                 </a>
             </li>
         </ul>
