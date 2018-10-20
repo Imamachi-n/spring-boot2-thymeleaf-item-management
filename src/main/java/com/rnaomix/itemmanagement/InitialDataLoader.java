@@ -49,8 +49,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
         Role userRole = roleRepository.findByRole(Role.RoleName.USER);
 
         // Add users and save these to DB
-        User user1 = new User("imamachi", "password", "imamachi@gmail.com");
-        User user2 = new User("admin", "password", "admin@gmail.com");
+        User user1 = new User("imamachi", "password",
+                "imamachi@gmail.com","直登", "今町");
+        User user2 = new User("admin", "password",
+                "admin@gmail.com","", "管理人");
         user1.setPassword(passwordEncoder.encode(user1.getPassword()));
         user2.setPassword(passwordEncoder.encode(user2.getPassword()));
         user1.setRoles(Arrays.asList(userRole));

@@ -79,7 +79,7 @@ public class ShoppingCartController {
     @PostMapping("/purchase")
     public String purchaseItems(Model model){
 
-        // FIXME: 戻り値Nullの処理を考慮するべき
+        // FIXME: 戻り値Nullの処理を考慮するべき -> Optionalを使う
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByUsername(auth.getName());
 
