@@ -1,8 +1,8 @@
 package com.rnaomix.itemmanagement.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class LoginController {
 
     @GetMapping("/index")
-    public String getLogin(){
+    public String getLogin(Model model){
 
         return "/login/index";
     }
 
-//    @PostMapping("/index")
-//    public String postLogin(){
-//
-//        return "/home";
-//    }
+    @GetMapping("/error")
+    public String postLogin(Model model){
+
+        model.addAttribute("error", true);
+        return "/login/index";
+    }
 }

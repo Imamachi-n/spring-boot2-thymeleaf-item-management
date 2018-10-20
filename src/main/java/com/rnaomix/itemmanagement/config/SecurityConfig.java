@@ -1,6 +1,7 @@
 package com.rnaomix.itemmanagement.config;
 
 import com.rnaomix.itemmanagement.service.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -8,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
@@ -17,6 +19,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
@@ -40,14 +45,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()  // それ以外へのアクセスは認証が必須
                 .and()
         // ログイン設定
-            .formLogin()
-                .loginProcessingUrl("/login/index")    // 認証処理のパス
-                .loginPage("/login/index")    // ログインフォーム表示用のパス
+            .formLogin()    // フォーム認証を行う
+//                .loginProcessingUrl("/login/index")    // 認証処理のパス
+                .loginPage("/login/index")    // ログインページを表示するURL
 //                .failureHandler(new SimpleUrlAuthenticationFailureHandler())    // 認証失敗時
-                .failureUrl("/login/index?error=true") // 認証失敗時のパス
                 .defaultSuccessUrl("/home") // 認証成功時の遷移先
+                .failureUrl("/login/error") // 認証失敗時のURL
                 .usernameParameter("username")  // ユーザ名のリクエストパラメータ
                 .passwordParameter("password")    // パスワードのリクエストパラメータ
+                .permitAll()    // FIXME: すべてのユーザにアクセス権を与える
                 .and()
         // ログアウト設定
             .logout()
@@ -58,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         // 認証するユーザーを設定する
-        auth.userDetailsService(new UserDetailsServiceImpl())
+        auth.userDetailsService(userDetailsServiceImpl)
                 // 入力値をBCryptでハッシュ化した値でパスワード認証を行う
                 .passwordEncoder(passwordEncoder());
     }

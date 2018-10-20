@@ -27,11 +27,18 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        User user = userRepository.findByUsername(username);
-        if(user == null){
-            throw new UsernameNotFoundException("ユーザ情報が存在しません。");
+        if (username == null || username.equals("")){
+            throw new UsernameNotFoundException("ユーザ名が入力されていません。");
         }
 
-        return new AuthenticationDetail(user);
+        try{
+            User user = userRepository.findByUsername(username);
+            if(user == null){
+                throw new UsernameNotFoundException("ユーザ情報が存在しません。" + username);
+            }
+            return new AuthenticationDetail(user);
+        }catch(final Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }
