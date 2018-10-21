@@ -23,6 +23,34 @@
     </div>
 
     <hr/>
+
+    <!-- status -->
+    <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
+    <!-- end of status -->
+
+    <h5>入力フォーム</h5>
+    <div class="container">
+        <form method="post" action="/user/list" th:action="@{/user/list}" th:object="${userForm}">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="userName">ユーザ名&nbsp;
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="ユーザ名を入力してください。"></i>
+                    </label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" type="text" id="userName" size="40" placeholder="例）1234567" th:field="*{username}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('username')}">カタログIDは1～50文字で入力してください。</small>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <br/>
+    <hr/>
+
+    <h5>物品一覧</h5>
+    <div class="table-responsive">
+    </div>
+
 </div>
 <!-- end of main container -->
 

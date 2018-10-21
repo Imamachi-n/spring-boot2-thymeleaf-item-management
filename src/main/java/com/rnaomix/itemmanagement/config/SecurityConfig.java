@@ -28,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 静的リソース（images, css, javascript）に対するアクセスを許可
         web.ignoring().antMatchers(
                 "/img/**",
-                "/static/css/**",
+                "/css/**",
                 "/js/**",
                 "/webjars/**",
                 "/font/**"

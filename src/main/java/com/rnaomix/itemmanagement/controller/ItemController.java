@@ -24,12 +24,12 @@ import java.util.Set;
 public class ItemController {
 
     private ItemService itemService;
-    private ShoppingCartService shoppingCartService;
+    private InitController initController;
 
     @Autowired
-    public ItemController(ItemService itemService, ShoppingCartService shoppingCartService) {
+    public ItemController(ItemService itemService, InitController initController) {
         this.itemService = itemService;
-        this.shoppingCartService = shoppingCartService;
+        this.initController = initController;
     }
 
     private void init(Model model){
@@ -37,22 +37,13 @@ public class ItemController {
         model.addAttribute("items", itemService.getItemList());
         // フォーム内容のオブジェクトを用意
         model.addAttribute("itemForm", new ItemForm());
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
     }
 
     private void initGetItems(Model model){
         // 全件検索結果をリクエストスコープで渡す
         model.addAttribute("items", itemService.getItemList());
-        setCartTotal(model);
-    }
-
-    // ショッピングカート内の物品数をSessionから取得
-    private void setCartTotal(Model model){
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("auth",
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+        initController.initializeSessionInfo(model);
     }
 
     @GetMapping({"", "/list"})
@@ -75,7 +66,7 @@ public class ItemController {
         }
 
         model.addAttribute("itemForm", itemForm);
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "item/confirm";
     }
 
@@ -114,7 +105,7 @@ public class ItemController {
         Item item = itemService.getItem(itemId);
         ItemForm itemForm = new ItemForm(itemId, item.getCatId(), item.getItemName(), item.getPrice(), item.getVersion());
         model.addAttribute("itemForm", itemForm);
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "item/edit";
     }
 
@@ -131,7 +122,7 @@ public class ItemController {
         // 入力エラーが存在する場合
         if (result.hasErrors()) {
             model.addAttribute("itemId", itemForm.getItemId());
-            setCartTotal(model);
+            initController.initializeSessionInfo(model);
             return "/item/edit";
         }
 

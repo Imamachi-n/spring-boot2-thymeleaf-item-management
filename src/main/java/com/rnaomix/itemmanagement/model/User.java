@@ -24,16 +24,12 @@ public class User {
     private Integer userId;
 
     @Column(length = 20, nullable = false, unique = true)
-    @NotEmpty(message = "ユーザ名を入力してください。")
     private String username;
 
     @Column(nullable = false)
-    @NotEmpty(message = "パスワードを入力してください。")
     private String password;
 
     @Column(nullable = false, unique = true)
-    @Email(message = "正しいメールアドレスを入力してください。")
-    @NotEmpty(message = "メールアドレスを入力してください。")
     private String email;
 
     @Column(nullable = false)

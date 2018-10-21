@@ -1,38 +1,56 @@
 package com.rnaomix.itemmanagement.controller;
 
+import com.rnaomix.itemmanagement.form.UserForm;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
+import com.rnaomix.itemmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user")
 public class UserController {
 
-    private ShoppingCartService shoppingCartService;
+    private UserService userService;
+    private InitController initController;
 
     @Autowired
-    public UserController(ShoppingCartService shoppingCartService) {
-        this.shoppingCartService = shoppingCartService;
+    public UserController(UserService userService, InitController initController) {
+        this.userService = userService;
+        this.initController = initController;
     }
 
-    // ショッピングカート内の物品数をSessionから取得
-    private void setCartTotal(Model model){
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("auth",
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
+    public void init(Model model){
+        // フォーム内容を格納するオブジェクトの用意
+        model.addAttribute("userForm", new UserForm());
+        initController.initializeSessionInfo(model);
     }
 
-    @GetMapping("list")
+    @GetMapping({"", "/list"})
     public String getUserList(Model model){
 
-        setCartTotal(model);
+        // 初期処理
+        init(model);
         return "/user/list";
+    }
+
+    @PostMapping("/list")
+    public String registerUser(@Validated @ModelAttribute UserForm userForm,
+                               BindingResult result,
+                               Model model){
+
+        // 入力エラーが存在する場合
+        if (result.hasErrors()){
+            return "/user/list";
+        }
+        return "user/confirm";
     }
 }

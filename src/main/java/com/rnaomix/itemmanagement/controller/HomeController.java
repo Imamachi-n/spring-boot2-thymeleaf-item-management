@@ -52,9 +52,12 @@ public class HomeController {
 
     @PostMapping("/add")
     public String addItemToCart(@RequestParam(name = "itemId") Integer itemId,
+                                @RequestParam(name = "itemName") String itemName,
                                 Model model){
 
         shoppingCartService.addShoppingCart(itemId, 1);
-        return "redirect:/home";
+        model.addAttribute("isAdded", "「" + itemName + "」×1をカートに追加しました。");
+
+        return getHome(model);
     }
 }
