@@ -25,12 +25,13 @@ public class UserForm {
     private String password;
 
     @NonNull
-    @Email(message = "正しいメールアドレスを入力してください。")
-    private String email;
+    @NotEmpty(message = "パスワードを入力してください。")
+    private String passwordConfirmation;
 
     @NonNull
     @Email(message = "正しいメールアドレスを入力してください。")
-    private String emailConfirmation;
+    @NotEmpty(message = "メールアドレスを入力してください。")
+    private String email;
 
     @NonNull
     @Size(min = 1, max = 50)
@@ -41,6 +42,8 @@ public class UserForm {
     private String lastName;
 
     private String authorization;
+
+    private Boolean isAdmin;
 
     public UserForm() {}
 

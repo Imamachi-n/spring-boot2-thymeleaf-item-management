@@ -1,6 +1,8 @@
 package com.rnaomix.itemmanagement.controller;
 
+import com.rnaomix.itemmanagement.form.ItemForm;
 import com.rnaomix.itemmanagement.form.UserForm;
+import com.rnaomix.itemmanagement.model.User;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import com.rnaomix.itemmanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/user")
@@ -28,11 +27,17 @@ public class UserController {
         this.initController = initController;
     }
 
-    public void init(Model model){
+    private void init(Model model){
         // 全件検索結果をリクエストスコープで渡す
         model.addAttribute("users", userService.getUserList());
         // フォーム内容を格納するオブジェクトの用意
         model.addAttribute("userForm", new UserForm());
+        initController.initializeSessionInfo(model);
+    }
+
+    private void initError(Model model){
+        // 全件検索結果をリクエストスコープで渡す
+        model.addAttribute("users", userService.getUserList());
         initController.initializeSessionInfo(model);
     }
 
@@ -51,9 +56,43 @@ public class UserController {
 
         // 入力エラーが存在する場合
         if (result.hasErrors()){
+            initError(model);
+            model.addAttribute("formError", "入力に誤りがあります。");
             return "/user/list";
         }
+
+        // パスワード一致しない
+        if (!userForm.getPassword().equals(userForm.getPasswordConfirmation())) {
+            initError(model);
+            model.addAttribute("inValidPassword", "入力したパスワードが一致しません。");
+            return "/user/list";
+        }
+
+        model.addAttribute("userForm", userForm);
+        initController.initializeSessionInfo(model);
         return "user/confirm";
+    }
+
+    @PostMapping("/confirm")
+    public String confirmUserRegistration(@RequestParam(name = "submit") String submit,
+                                          @ModelAttribute UserForm userForm, Model model){
+
+        // キャンセルボタンを押した場合
+        if (submit.equals("cancel")){
+            // 前の画面に戻る
+            initError(model);
+            return "user/list";
+        }
+
+        // ユーザの登録
+        User user = new User(userForm.getUsername(), userForm.getPassword(), userForm.getEmail(),
+                userForm.getFirstName(), userForm.getLastName());
+
+        // 初期処理
+        init(model);
+        // ステータス（登録成功）
+        model.addAttribute("isRegistered", "ユーザの登録に成功しました。");
+        return "/user/list";
     }
 
     @PostMapping("/delete")

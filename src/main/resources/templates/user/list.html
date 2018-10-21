@@ -26,7 +26,8 @@
 
     <!-- status -->
     <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
-    <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
+    <div class="alert alert-warning" th:if="${inValidPassword}" th:text="${inValidPassword}" role="alert"></div>
+    <div class="alert alert-warning" th:if="${formError}" th:text="${formError}" role="alert"></div>
     <!-- end of status -->
 
     <!-- form region -->
@@ -55,11 +56,11 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="emailConfirmation">パスワード（確認用）&nbsp;
+                    <label for="passwordConfirmation">パスワード（確認用）&nbsp;
                         <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="パスワード（確認用）を6～20文字で入力してください。"></i>
                     </label>
-                    <input class="form-control" th:classappend="${#fields.hasErrors('emailConfirmation')} ? 'is-invalid'" type="password" id="emailConfirmation" size="40" placeholder="例）password" th:field="*{emailConfirmation}"/>
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('emailConfirmation')}">パスワードは6～20文字で入力してください。</small>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'is-invalid'" type="password" id="passwordConfirmation" size="40" placeholder="例）password" th:field="*{passwordConfirmation}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('passwordConfirmation')}">パスワードは6～20文字で入力してください。</small>
                 </div>
             </div>
 
@@ -93,7 +94,7 @@
 
             <div class="form-row form-group">
                 <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="auth">
+                    <input type="checkbox" class="custom-control-input" id="auth"  th:field="*{IsAdmin}">
                     <label class="custom-control-label" for="auth">管理者権限を付与する</label>
                 </div>
                 </div>
