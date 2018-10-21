@@ -12,6 +12,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 public class UserForm {
 
+    private Integer userId;
+
     @NonNull
     @Size(min = 1, max = 20)
     @NotEmpty(message = "ユーザ名を入力してください。")
@@ -27,6 +29,10 @@ public class UserForm {
     private String email;
 
     @NonNull
+    @Email(message = "正しいメールアドレスを入力してください。")
+    private String emailConfirmation;
+
+    @NonNull
     @Size(min = 1, max = 50)
     private String firstName;
 
@@ -34,5 +40,17 @@ public class UserForm {
     @Size(min = 1, max = 50)
     private String lastName;
 
+    private String authorization;
+
     public UserForm() {}
+
+    public UserForm(Integer userId, String username, String email,
+                    String firstName, String lastName, String authorization) {
+        this.userId = userId;
+        this.username = username;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.authorization = authorization;
+    }
 }

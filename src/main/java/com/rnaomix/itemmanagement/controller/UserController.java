@@ -29,6 +29,8 @@ public class UserController {
     }
 
     public void init(Model model){
+        // 全件検索結果をリクエストスコープで渡す
+        model.addAttribute("users", userService.getUserList());
         // フォーム内容を格納するオブジェクトの用意
         model.addAttribute("userForm", new UserForm());
         initController.initializeSessionInfo(model);
@@ -52,5 +54,11 @@ public class UserController {
             return "/user/list";
         }
         return "user/confirm";
+    }
+
+    @PostMapping("/delete")
+    public String deleteItems(Model model){
+
+        return "user/list";
     }
 }

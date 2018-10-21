@@ -1,5 +1,6 @@
 package com.rnaomix.itemmanagement.service;
 
+import com.rnaomix.itemmanagement.form.UserForm;
 import com.rnaomix.itemmanagement.model.Role;
 import com.rnaomix.itemmanagement.model.User;
 import com.rnaomix.itemmanagement.repository.RoleRepository;
@@ -34,6 +35,22 @@ public class UserServiceImpl implements UserService {
     public Optional<User> getUserById(long userId){
 
         return userRepository.findById(userId);
+    }
+
+    @Override
+    public List<UserForm> getUserList(){
+        List<UserForm> userFormList = new ArrayList<>();
+
+        userRepository.findAll().forEach(user -> {
+            String auth = user.getRoles().stream().reduce(
+                    "",
+                    (tmp, role) -> tmp + ", " + role.getRole().name(),
+                    (tmp1, tmp2) -> tmp1 + tmp2
+                ).substring(1);
+            userFormList.add(new UserForm(user.getUserId(), user.getUsername(), user.getEmail(),
+                    user.getFirstName(), user.getLastName(), auth));
+        });
+        return userFormList;
     }
 
     @Override

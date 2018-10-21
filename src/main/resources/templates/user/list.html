@@ -29,6 +29,7 @@
     <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
     <!-- end of status -->
 
+    <!-- form region -->
     <h5>入力フォーム</h5>
     <div class="container">
         <form method="post" action="/user/list" th:action="@{/user/list}" th:object="${userForm}">
@@ -37,18 +38,147 @@
                     <label for="userName">ユーザ名&nbsp;
                         <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="ユーザ名を入力してください。"></i>
                     </label>
-                    <input class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" type="text" id="userName" size="40" placeholder="例）1234567" th:field="*{username}"/>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" type="text" id="userName" size="40" placeholder="例）imamachi" th:field="*{username}"/>
                     <small class="form-text text-danger" th:if="${#fields.hasErrors('username')}">カタログIDは1～50文字で入力してください。</small>
                 </div>
             </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="password">パスワード&nbsp;
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="パスワードを6～20文字で入力してください。"></i>
+                    </label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password" id="password" size="40" placeholder="例）password" th:field="*{password}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}">パスワードは6～20文字で入力してください。</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="emailConfirmation">パスワード（確認用）&nbsp;
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="パスワード（確認用）を6～20文字で入力してください。"></i>
+                    </label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('emailConfirmation')} ? 'is-invalid'" type="password" id="emailConfirmation" size="40" placeholder="例）password" th:field="*{emailConfirmation}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('emailConfirmation')}">パスワードは6～20文字で入力してください。</small>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">メールアドレス&nbsp;
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="メールアドレスを入力してください。"></i>
+                    </label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'" type="text" id="email" size="40" placeholder="例）imamachi@exmaple.com" th:field="*{email}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}">正しいメールアドレスを入力してください。</small>
+                </div>
+            </div>
+
+            <div class="form-row form-group">
+                <div class="col-2 pl-0">
+                    <label for="lastName">氏&nbsp;
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="名字を入力してください。"></i>
+                    </label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('lastName')} ? 'is-invalid'" type="text" id="lastName" size="40" placeholder="例）山田" th:field="*{lastName}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('lastName')}">名字を入力してください。</small>
+                </div>
+
+                <div class="col-2">
+                    <label for="firstName">名&nbsp;
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="名前を入力してください。"></i>
+                    </label>
+                    <input class="form-control" th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid'" type="text" id="firstName" size="40" placeholder="例）太郎" th:field="*{firstName}"/>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('firstName')}">名前を入力してください。</small>
+                </div>
+            </div>
+
+            <div class="form-row form-group">
+                <div class="custom-control custom-checkbox my-1 mr-sm-2">
+                    <input type="checkbox" class="custom-control-input" id="auth">
+                    <label class="custom-control-label" for="auth">管理者権限を付与する</label>
+                </div>
+                </div>
+
+            <button type="submit" class="btn btn-primary">登録する</button>
+            <button type="reset" class="btn btn-light">リセット</button>
         </form>
     </div>
+    <!-- end of form region -->
 
     <br/>
     <hr/>
 
-    <h5>物品一覧</h5>
+    <!-- status -->
+    <div class="alert alert-success" th:if="${isDeleted}" th:text="${isDeleted}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${isNotChecked}" th:text="${isNotChecked}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${deleteError}" th:text="${deleteError}" role="alert"></div>
+    <!-- end of status -->
+
+    <h5>ユーザ一覧</h5>
     <div class="table-responsive">
+        <form method="post" action="/user/delete" th:action="@{/user/delete}">
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger btn-sm" style="margin-left: 10px" data-toggle="modal" data-target="#exampleModal">
+                            削除
+                        </button>
+                    </th>
+                    <th class="align-middle">ユーザID</th>
+                    <th class="align-middle">ユーザ名</th>
+                    <th class="align-middle">メールアドレス</th>
+                    <th class="align-middle">氏</th>
+                    <th class="align-middle">名</th>
+                    <th class="align-middle">権限</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td class="align-middle">
+                        <label class="customcheck">
+                            <input type="checkbox" class="checkbox align-middle" name="itemIds" th:value="${user.userId}" />
+                            <span class="checkmark"></span>
+                        </label>
+                    </td>
+                    <td th:text="${user.userId}" class="align-middle"></td>
+                    <td th:text="${user.username}" class="align-middle"></td>
+                    <td th:text="${user.email}" class="align-middle"></td>
+                    <td th:text="${user.lastName}" class="align-middle"></td>
+                    <td th:text="${user.firstName}" class="align-middle"></td>
+                    <td th:text="${user.authorization}" class="align-middle"></td>
+                    <td>
+                        <a class="btn btn-primary btn-sm" th:href="@{/item/edit(itemId=${user.userId})}">
+                            更新
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">確認</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            選択した物品を削除してもよろしいですか？
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">キャンセル</button>
+                            <button type="submit" class="btn btn-danger">削除</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end of modal-->
+        </form>
     </div>
 
 </div>
@@ -60,6 +190,7 @@
 <script th:href="@{/webjars/font-awesome/js/all.js}"></script>
 <script>
     $('a').tooltip();
+    $('i').tooltip();
 </script>
 </body>
 </html>
