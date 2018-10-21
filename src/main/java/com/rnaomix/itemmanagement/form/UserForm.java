@@ -20,7 +20,7 @@ public class UserForm {
     private String username;
 
     @NonNull
-    @Size(min = 6, max = 20)
+    @Size(min = 6)
     @NotEmpty(message = "パスワードを入力してください。")
     private String password;
 
@@ -55,5 +55,17 @@ public class UserForm {
         this.firstName = firstName;
         this.lastName = lastName;
         this.authorization = authorization;
+    }
+
+    public UserForm(Integer userId, String username, String password, String passwordConfirmation,
+                    String email, String firstName, String lastName, Boolean isAdmin) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.passwordConfirmation = passwordConfirmation;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.isAdmin = isAdmin;
     }
 }

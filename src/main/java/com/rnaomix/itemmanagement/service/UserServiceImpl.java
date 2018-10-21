@@ -32,9 +32,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(long userId){
+    public UserForm getUserById(Integer userId){
 
-        return userRepository.findById(userId);
+        User user = userRepository.findByUserId(userId);
+        if (user != null){
+            Boolean isAdmin = user.getRoles()
+                    .stream().anyMatch(role -> role.getRole().name().equals(Role.RoleName.ADMIN.name()));
+            return new UserForm(userId, user.getUsername(), user.getPassword(), user.getPassword(),
+                    user.getEmail(), user.getFirstName(), user.getLastName(), isAdmin);
+        }else{
+            return null;
+        }
     }
 
     @Override
@@ -72,5 +80,27 @@ public class UserServiceImpl implements UserService {
         }
 
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(UserForm userForm){
+
+        User user = new User(userForm.getUsername(), userForm.getPassword(), userForm.getEmail(),
+                userForm.getFirstName(), userForm.getLastName());
+        if (userForm.getIsAdmin()){
+            user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN),
+                    roleRepository.findByRole(Role.RoleName.USER)));
+        }else{
+            user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER)));
+        }
+
+        deleteUser(Arrays.asList(userForm.getUserId()));
+        userRepository.save(user);
+    }
+
+    @Override
+    public int deleteUser(List<Integer> userIds){
+        return userRepository.deleteUserByUserId(userIds);
     }
 }

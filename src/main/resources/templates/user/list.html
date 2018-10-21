@@ -27,7 +27,8 @@
     <!-- status -->
     <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
     <div class="alert alert-warning" th:if="${inValidPassword}" th:text="${inValidPassword}" role="alert"></div>
-    <div class="alert alert-warning" th:if="${formError}" th:text="${formError}" role="alert"></div>
+    <div class="alert alert-warning" th:if="${formWarning}" th:text="${formWarning}" role="alert"></div>
+    <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
     <!-- end of status -->
 
     <!-- form region -->
@@ -40,14 +41,14 @@
                         <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="ユーザ名を入力してください。"></i>
                     </label>
                     <input class="form-control" th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" type="text" id="userName" size="40" placeholder="例）imamachi" th:field="*{username}"/>
-                    <small class="form-text text-danger" th:if="${#fields.hasErrors('username')}">カタログIDは1～50文字で入力してください。</small>
+                    <small class="form-text text-danger" th:if="${#fields.hasErrors('username')}">ユーザ名は1～50文字で入力してください。</small>
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group">
                     <label for="password">パスワード&nbsp;
-                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="パスワードを6～20文字で入力してください。"></i>
+                        <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="パスワードを6文字以上で入力してください。"></i>
                     </label>
                     <input class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" type="password" id="password" size="40" placeholder="例）password" th:field="*{password}"/>
                     <small class="form-text text-danger" th:if="${#fields.hasErrors('password')}">パスワードは6～20文字で入力してください。</small>
@@ -94,10 +95,10 @@
 
             <div class="form-row form-group">
                 <div class="custom-control custom-checkbox my-1 mr-sm-2">
-                    <input type="checkbox" class="custom-control-input" id="auth"  th:field="*{IsAdmin}">
+                    <input type="checkbox" class="custom-control-input" id="auth"  th:field="*{isAdmin}">
                     <label class="custom-control-label" for="auth">管理者権限を付与する</label>
                 </div>
-                </div>
+            </div>
 
             <button type="submit" class="btn btn-primary">登録する</button>
             <button type="reset" class="btn btn-light">リセット</button>
@@ -139,7 +140,7 @@
                 <tr th:each="user : ${users}">
                     <td class="align-middle">
                         <label class="customcheck">
-                            <input type="checkbox" class="checkbox align-middle" name="itemIds" th:value="${user.userId}" />
+                            <input type="checkbox" class="checkbox align-middle" name="userIds" th:value="${user.userId}" />
                             <span class="checkmark"></span>
                         </label>
                     </td>
@@ -150,7 +151,7 @@
                     <td th:text="${user.firstName}" class="align-middle"></td>
                     <td th:text="${user.authorization}" class="align-middle"></td>
                     <td>
-                        <a class="btn btn-primary btn-sm" th:href="@{/item/edit(itemId=${user.userId})}">
+                        <a class="btn btn-primary btn-sm" th:href="@{/user/edit(userId=${user.userId})}">
                             更新
                         </a>
                     </td>
