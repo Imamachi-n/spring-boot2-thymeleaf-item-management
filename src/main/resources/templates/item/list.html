@@ -26,6 +26,7 @@
 
     <!-- status -->
     <div class="alert alert-success" th:if="${isRegistered}" th:text="${isRegistered}" role="alert"></div>
+    <div class="alert alert-warning" th:if="${formWarning}" th:text="${formWarning}" role="alert"></div>
     <div class="alert alert-danger" th:if="${formError}" th:text="${formError}" role="alert"></div>
     <!-- end of status -->
 
@@ -46,7 +47,7 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="catId">物品名ID&nbsp;
+                    <label for="catId">物品名&nbsp;
                         <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="商品名を400文字以内で入力してください。"></i>
                     </label>
                     <input class="form-control" th:classappend="${#fields.hasErrors('itemName')} ? 'is-invalid'" type="text" id="itemName" size="40" placeholder="例）トイレットペーパー" th:field="*{itemName}"/>
@@ -56,7 +57,7 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="catId">価格ID&nbsp;
+                    <label for="catId">価格&nbsp;
                         <i class="fas fa-question-circle" data-placement="right" data-toggle="tooltip" data-original-title="商品の価格を入力してください。"></i>
                     </label>
                     <input class="form-control" th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'" type="text" id="price" size="40" placeholder="例）1200" th:field="*{price}"/>

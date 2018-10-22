@@ -62,6 +62,7 @@ public class ItemController {
         if (result.hasErrors()) {
             // 全件検索結果をリクエストスコープで渡す
             initGetItems(model);
+            model.addAttribute("formWarning", "入力に誤りがあります。");
             return "item/list";
         }
 
