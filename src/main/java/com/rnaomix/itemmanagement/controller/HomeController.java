@@ -47,7 +47,7 @@ public class HomeController {
         });
 
         setCartTotal(model);
-        return "home";
+        return "/home";
     }
 
     @PostMapping("/add")
