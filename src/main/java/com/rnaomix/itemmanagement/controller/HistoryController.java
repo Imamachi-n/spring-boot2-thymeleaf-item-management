@@ -50,6 +50,7 @@ public class HistoryController {
 
         model.addAttribute("histories", historyService.getMonthlyItemHistoryList(monthly));
         model.addAttribute("monthly", monthly);
+        setCartTotal(model);
         return "/history/list";
     }
 }
