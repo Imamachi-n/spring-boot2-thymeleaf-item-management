@@ -38,6 +38,9 @@ public class User {
     @Column(nullable = false)
     private String lastName;
 
+    @Version
+    private Integer version;
+
     @ManyToMany
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -55,12 +58,13 @@ public class User {
     }
 
     public User(Integer userId, String username, String password,
-                String email, String firstName, String lastName) {
+                String email, String firstName, String lastName, Integer version) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.version = version;
     }
 }

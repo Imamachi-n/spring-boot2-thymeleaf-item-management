@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
             Boolean isAdmin = user.getRoles()
                     .stream().anyMatch(role -> role.getRole().name().equals(Role.RoleName.ADMIN.name()));
             return new UserForm(userId, user.getUsername(), user.getPassword(), user.getPassword(),
-                    user.getEmail(), user.getFirstName(), user.getLastName(), isAdmin);
+                    user.getEmail(), user.getFirstName(), user.getLastName(), isAdmin, user.getVersion());
         }else{
             return null;
         }
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(UserForm userForm){
 
         User user = new User(userForm.getUserId(), userForm.getUsername(), userForm.getPassword(),
-                userForm.getEmail(), userForm.getFirstName(), userForm.getLastName());
+                userForm.getEmail(), userForm.getFirstName(), userForm.getLastName(), userForm.getVersion());
         if (userForm.getIsAdmin()){
             user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN),
                     roleRepository.findByRole(Role.RoleName.USER)));
@@ -95,7 +95,6 @@ public class UserServiceImpl implements UserService {
             user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER)));
         }
 
-//        deleteUser(Arrays.asList(userForm.getUserId()));
         userRepository.save(user);
     }
 

@@ -45,6 +45,8 @@ public class UserForm {
 
     private Boolean isAdmin;
 
+    private Integer version;
+
     public UserForm() {}
 
     public UserForm(Integer userId, String username, String email,
@@ -58,7 +60,7 @@ public class UserForm {
     }
 
     public UserForm(Integer userId, String username, String password, String passwordConfirmation,
-                    String email, String firstName, String lastName, Boolean isAdmin) {
+                    String email, String firstName, String lastName, Boolean isAdmin, Integer version) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -67,5 +69,6 @@ public class UserForm {
         this.firstName = firstName;
         this.lastName = lastName;
         this.isAdmin = isAdmin;
+        this.version = version;
     }
 }
