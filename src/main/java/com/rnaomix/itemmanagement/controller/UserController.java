@@ -76,7 +76,7 @@ public class UserController {
 
         model.addAttribute("userForm", userForm);
         initController.initializeSessionInfo(model);
-        return "user/confirm";
+        return "/user/confirm";
     }
 
     @PostMapping("/confirm")
@@ -87,7 +87,7 @@ public class UserController {
         if (submit.equals("cancel")){
             // 前の画面に戻る
             initError(model);
-            return "user/list";
+            return "/user/list";
         }
 
         // ユーザの登録
@@ -100,7 +100,7 @@ public class UserController {
             initError(model);
             // エラーメッセージ
             model.addAttribute("formError", "対象のユーザ名・メールアドレスはすでに登録されています。");
-            return "user/list";
+            return "/user/list";
         }
 
         // 初期処理
@@ -119,11 +119,11 @@ public class UserController {
         }else{
             model.addAttribute("deleteError", "ユーザが存在しないため更新できません。");
             init(model);    // 初期化処理
-            return "user/list";
+            return "/user/list";
         }
 
         initController.initializeSessionInfo(model);
-        return "user/edit";
+        return "/user/edit";
     }
 
     @PostMapping("save")
@@ -165,7 +165,7 @@ public class UserController {
             init(model);
             // ステータス
             model.addAttribute("isNotChecked", "削除対象が選択されていません。");
-            return "user/list";
+            return "/user/list";
         }
 
         // 対象の物品情報の削除
@@ -184,6 +184,6 @@ public class UserController {
 
         // 前の画面に戻る
         init(model);
-        return "user/list";
+        return "/user/list";
     }
 }

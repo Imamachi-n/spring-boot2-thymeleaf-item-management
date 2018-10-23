@@ -52,7 +52,7 @@ public class ItemController {
         // 初期処理
         init(model);
 
-        return "item/list";
+        return "/item/list";
     }
 
     @PostMapping("/list")
@@ -63,12 +63,12 @@ public class ItemController {
             // 全件検索結果をリクエストスコープで渡す
             initGetItems(model);
             model.addAttribute("formWarning", "入力に誤りがあります。");
-            return "item/list";
+            return "/item/list";
         }
 
         model.addAttribute("itemForm", itemForm);
         initController.initializeSessionInfo(model);
-        return "item/confirm";
+        return "/item/confirm";
     }
 
     @PostMapping("/confirm")
@@ -78,7 +78,7 @@ public class ItemController {
         if (submit.equals("cancel")){
             // 前の画面に戻る
             initGetItems(model);
-            return "item/list";
+            return "/item/list";
         }
 
         // 物品の登録
@@ -90,14 +90,14 @@ public class ItemController {
             init(model);
             // エラーメッセージ
             model.addAttribute("formError", "対象のカタログIDはすでに登録されています。");
-            return "item/list";
+            return "/item/list";
         }
 
         // 初期処理
         init(model);
         // ステータス（登録成功）
         model.addAttribute("isRegistered", "物品の登録に成功しました。");
-        return "item/list";
+        return "/item/list";
     }
 
     @GetMapping("edit")
@@ -107,7 +107,7 @@ public class ItemController {
         ItemForm itemForm = new ItemForm(itemId, item.getCatId(), item.getItemName(), item.getPrice(), item.getVersion());
         model.addAttribute("itemForm", itemForm);
         initController.initializeSessionInfo(model);
-        return "item/edit";
+        return "/item/edit";
     }
 
     @PostMapping("/save")
@@ -149,7 +149,7 @@ public class ItemController {
             init(model);
             // ステータス
             model.addAttribute("isNotChecked", "削除対象が選択されていません。");
-            return "item/list";
+            return "/item/list";
         }
 
         // 対象の物品情報の削除
@@ -168,6 +168,6 @@ public class ItemController {
 
         // 前の画面に戻る
         init(model);
-        return "item/list";
+        return "/item/list";
     }
 }
