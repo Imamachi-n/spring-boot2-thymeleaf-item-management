@@ -86,8 +86,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void updateUser(UserForm userForm){
 
-        User user = new User(userForm.getUsername(), userForm.getPassword(), userForm.getEmail(),
-                userForm.getFirstName(), userForm.getLastName());
+        User user = new User(userForm.getUserId(), userForm.getUsername(), userForm.getPassword(),
+                userForm.getEmail(), userForm.getFirstName(), userForm.getLastName());
         if (userForm.getIsAdmin()){
             user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.ADMIN),
                     roleRepository.findByRole(Role.RoleName.USER)));
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
             user.setRoles(Arrays.asList(roleRepository.findByRole(Role.RoleName.USER)));
         }
 
-        deleteUser(Arrays.asList(userForm.getUserId()));
+//        deleteUser(Arrays.asList(userForm.getUserId()));
         userRepository.save(user);
     }
 

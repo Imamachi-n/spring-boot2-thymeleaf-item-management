@@ -153,7 +153,7 @@ public class UserController {
             return "/user/edit";
         }catch(DataIntegrityViolationException e){
             model.addAttribute("userId", userForm.getUserId());
-            model.addAttribute("formError", "参照整合性制約に起因する既存バグ、現在修正中。");
+            model.addAttribute("formError", "参照整合性制約に起因するエラーが発生しました。");
             init(model);
             return "/user/list";
         }
