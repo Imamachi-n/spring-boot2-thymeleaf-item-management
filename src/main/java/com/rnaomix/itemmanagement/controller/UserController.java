@@ -6,6 +6,7 @@ import com.rnaomix.itemmanagement.model.Role;
 import com.rnaomix.itemmanagement.model.User;
 import com.rnaomix.itemmanagement.service.ShoppingCartService;
 import com.rnaomix.itemmanagement.service.UserService;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
@@ -150,6 +151,11 @@ public class UserController {
             model.addAttribute("userId", userForm.getUserId());
             model.addAttribute("formError", "別のユーザによって内容が更新されたため、入力内容を反映できませんでした。");
             return "/user/edit";
+        }catch(DataIntegrityViolationException e){
+            model.addAttribute("userId", userForm.getUserId());
+            model.addAttribute("formError", "参照整合性制約に起因する既存バグ、現在修正中。");
+            init(model);
+            return "/user/list";
         }
 
         return "redirect:list";
