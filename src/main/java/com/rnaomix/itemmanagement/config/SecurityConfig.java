@@ -37,8 +37,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+        http.csrf().disable();
         // 認可の設定
         http.authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers("/login/**").permitAll()  // loginは全ユーザーアクセス許可
 //                .antMatchers("/h2-console/**").permitAll()  // H2データベースは全ユーザーアクセス許可
                 .antMatchers("/item/**").hasRole(Role.RoleName.ADMIN.name())
