@@ -1,1 +1,1 @@
-web: java -server.port=$PORT $JAVA_OPTS -jar target/app.jar
+web: java -server.port=8080 $JAVA_OPTS -jar target/app.jar
