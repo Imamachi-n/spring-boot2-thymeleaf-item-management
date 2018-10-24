@@ -19,33 +19,26 @@ import java.util.Optional;
 @RequestMapping("/cart")
 public class ShoppingCartController {
 
+    private InitController initController;
     private HistoryService historyService;
     private HistoryDetailService historyDetailService;
     private ShoppingCartService shoppingCartService;
     private UserService userService;
 
     @Autowired
-    public ShoppingCartController(HistoryService historyService, HistoryDetailService historyDetailService,
-                                  ShoppingCartService shoppingCartService, UserService userService){
+    public ShoppingCartController(InitController initController, HistoryService historyService, HistoryDetailService historyDetailService, ShoppingCartService shoppingCartService, UserService userService) {
+        this.initController = initController;
         this.historyService = historyService;
         this.historyDetailService = historyDetailService;
         this.shoppingCartService = shoppingCartService;
         this.userService = userService;
     }
 
-    private void init(Model model){
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("auth",
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
-    }
-
     @GetMapping({"", "/list"})
     public String getCart(Model model){
 
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
-        init(model);
+        initController.initializeSessionInfo(model);
 
         // カートの中身が空の場合
         if(shoppingCartService.getTotal() == 0){
@@ -80,7 +73,7 @@ public class ShoppingCartController {
     public String confirmCart(Model model){
 
         model.addAttribute("cart", historyDetailService.createItemHistory(shoppingCartService.getItemsInCart()));
-        init(model);
+        initController.initializeSessionInfo(model);
         return "/cart/confirm";
     }
 
@@ -97,7 +90,7 @@ public class ShoppingCartController {
             shoppingCartService.clearCart();
 
         model.addAttribute("isPurchased", "物品を購入しました。");
-        init(model);
+        initController.initializeSessionInfo(model);
         return "/cart/list";
     }
 }

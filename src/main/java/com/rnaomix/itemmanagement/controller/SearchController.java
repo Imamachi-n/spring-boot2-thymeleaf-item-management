@@ -16,22 +16,15 @@ import java.util.List;
 @RequestMapping("/search")
 public class SearchController {
 
+    private InitController initController;
     private ItemService itemService;
     private ShoppingCartService shoppingCartService;
 
     @Autowired
-    public SearchController(ItemService itemService, ShoppingCartService shoppingCartService){
+    public SearchController(InitController initController, ItemService itemService, ShoppingCartService shoppingCartService) {
+        this.initController = initController;
         this.itemService = itemService;
         this.shoppingCartService = shoppingCartService;
-    }
-
-    // ショッピングカート内の物品数をSessionから取得
-    private void setCartTotal(Model model){
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("auth",
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     // 初期画面
@@ -43,7 +36,7 @@ public class SearchController {
         model.addAttribute("item", new Item());
 
         model.addAttribute("searchItems", "");
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "/search/list";
     }
 
@@ -53,7 +46,7 @@ public class SearchController {
 
         model.addAttribute("items", itemService.searchItemList(searchItems));
         model.addAttribute("searchItems", searchItems);
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "/search/list";
     }
 

@@ -18,22 +18,15 @@ import java.util.Calendar;
 @RequestMapping("history")
 public class HistoryController {
 
+    private InitController initController;
     private HistoryService historyService;
     private ShoppingCartService shoppingCartService;
 
     @Autowired
-    public HistoryController(HistoryService historyService, ShoppingCartService shoppingCartService) {
+    public HistoryController(InitController initController, HistoryService historyService, ShoppingCartService shoppingCartService) {
+        this.initController = initController;
         this.historyService = historyService;
         this.shoppingCartService = shoppingCartService;
-    }
-
-    // ショッピングカート内の物品数をSessionから取得
-    private void setCartTotal(Model model){
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("auth",
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     @GetMapping("list")
@@ -41,7 +34,7 @@ public class HistoryController {
 
         model.addAttribute("histories", historyService.getNowItemHistoryList());
         model.addAttribute("monthly", historyService.getNowDate());
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "/history/list";
     }
 
@@ -50,7 +43,7 @@ public class HistoryController {
 
         model.addAttribute("histories", historyService.getMonthlyItemHistoryList(monthly));
         model.addAttribute("monthly", monthly);
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "/history/list";
     }
 }

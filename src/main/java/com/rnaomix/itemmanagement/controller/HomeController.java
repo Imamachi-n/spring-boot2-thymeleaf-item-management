@@ -17,22 +17,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/home")
 public class HomeController {
 
+    private InitController initController;
     private ShoppingCartService shoppingCartService;
     private HistoryDetailService historyDetailService;
 
     @Autowired
-    public HomeController(ShoppingCartService shoppingCartService, HistoryDetailService historyDetailService) {
+    public HomeController(InitController initController, ShoppingCartService shoppingCartService, HistoryDetailService historyDetailService) {
+        this.initController = initController;
         this.shoppingCartService = shoppingCartService;
         this.historyDetailService = historyDetailService;
-    }
-
-    // ショッピングカート内の物品数をSessionから取得
-    private void setCartTotal(Model model){
-        model.addAttribute("cartTotal", shoppingCartService.getTotal());
-        model.addAttribute("username", SecurityContextHolder.getContext().getAuthentication().getName());
-        model.addAttribute("auth",
-                SecurityContextHolder.getContext().getAuthentication()
-                        .getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 
     @GetMapping("")
@@ -46,7 +39,7 @@ public class HomeController {
                     + a.getItem().getPrice());
         });
 
-        setCartTotal(model);
+        initController.initializeSessionInfo(model);
         return "/home";
     }
 
