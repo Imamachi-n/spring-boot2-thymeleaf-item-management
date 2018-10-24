@@ -6,8 +6,8 @@
     <groupId>com.rnaomix</groupId>
     <artifactId>itemmanagement</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <!--<packaging>jar</packaging>-->
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
+    <!--<packaging>war</packaging>-->
 
     <name>itemmanagement</name>
     <description>Item management system with spring boot and thymeleaf</description>
@@ -109,11 +109,11 @@
         <!-- end of webjars -->
 
         <!-- war option -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-starter-tomcat</artifactId>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
         <!-- end of war option -->
     </dependencies>
 
