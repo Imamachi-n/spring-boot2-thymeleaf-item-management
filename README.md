@@ -9,8 +9,16 @@ https://spring-boot-item-management.herokuapp.com/login
 
 ## PostgreSQL
 デフォルトスキーマ`public`を設定する必要あり。
+以下のコマンドでの日本語の文字コードを設定したpostgreSQLのDockerイメージ生成・起動（テスト用なのでデータの永続化は行っていない）。
 ```bash
-docker run -it --rm --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=itemdb -p 5432:5432 -d postgres:11.0
+docker build -t postgres-dev -f env/postgresql/Dockerfile env/postgresql/
+docker run -it --rm --name postgres-dev -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=itemdb -p 5433:5432 -d postgres-dev
+```
+
+以下のコマンドでpostgreSQLのデータベースが生成されているチェック。
+```bash
+docker exec -it postgres-dev psql -U postgres
+postgres#=\l
 ```
 
 ## MariaDB

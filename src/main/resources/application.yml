@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: development
+    active: postgres
 
   # Spring Data JPA settings
   jpa:
@@ -42,7 +42,7 @@ spring:
 
   # Postgres database settings
   datasource:
-    url: jdbc:postgresql://localhost:5432/itemdb_test
+    url: jdbc:postgresql://127.0.0.1:5433/itemdb
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
