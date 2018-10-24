@@ -85,8 +85,8 @@ public class ShoppingCartController {
         User user = userService.findUserByUsername(auth.getName());
 
             // カートの中身を保存
-            Map<Integer, Integer> test = shoppingCartService.getItemsInCart();
-            historyService.saveItemHistory(user, historyDetailService.createItemHistory(test));
+            Map<Integer, Integer> cartItems = shoppingCartService.getItemsInCart();
+            historyService.saveItemHistory(user, historyDetailService.createItemHistory(cartItems));
             shoppingCartService.clearCart();
 
         model.addAttribute("isPurchased", "物品を購入しました。");

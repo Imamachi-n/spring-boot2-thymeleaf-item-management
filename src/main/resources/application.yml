@@ -1,0 +1,48 @@
+spring:
+  # active profile setting
+  profiles:
+    active: development
+
+  # Spring Data JPA settings
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+
+  # Thymeleaf settings
+  thymeleaf:
+    cache: false
+    prefix: classpath:/templates
+
+# Tomcat server settings
+#server:
+#  port: 8080
+
+# logging settings
+logging:
+  level:
+    root: INFO
+
+---
+# 開発環境の設定
+spring:
+  profiles: development
+
+  # h2 database settings
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+---
+# 本番環境の設定
+spring:
+  profiles: production
+
+  # Postgres database settings
+  datasource:
+    url: jdbc:postgresql://localhost:5432/itemdb
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver

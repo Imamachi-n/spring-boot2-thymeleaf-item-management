@@ -68,7 +68,7 @@ public class UserController {
             return "/user/list";
         }
 
-        // パスワード一致しない
+        // パスワードが一致するかどうかチェック
         if (!userForm.getPassword().equals(userForm.getPasswordConfirmation())) {
             initError(model);
             model.addAttribute("inValidPassword", "入力したパスワードが一致しません。");
