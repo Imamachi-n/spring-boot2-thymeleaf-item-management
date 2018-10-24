@@ -1,0 +1,16 @@
+version: '3.1'
+services:
+  app:
+    image: app
+    ports:
+      - "8080:8080"
+      depends_on:
+        - postgresdb
+
+  postgresdb:
+    image: postgres
+    ports: "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pasword
+      - POSTGRES_DB=itemdb
