@@ -38,11 +38,31 @@ spring:
 ---
 # 本番環境の設定
 spring:
-  profiles: production
+  profiles: postgres
 
   # Postgres database settings
   datasource:
-    url: jdbc:postgresql://localhost:5432/itemdb
+    url: jdbc:postgresql://localhost:5432/itemdb_test
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        default_schema: public
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+---
+# 本番環境の設定
+spring:
+  profiles: mariadb
+
+  # Postgres database settings
+  datasource:
+    url: jdbc:mariadb://127.0.0.1:3306/itemdb_test
+    username: root
+    password: password
+    driver-class-name: org.mariadb.jdbc.Driver

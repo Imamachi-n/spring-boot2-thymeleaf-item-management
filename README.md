@@ -6,3 +6,15 @@ Item management system with Spring Boot2 and Thymeleaf
 
 ## Heroku
 https://spring-boot-item-management.herokuapp.com/login
+
+## PostgreSQL
+デフォルトスキーマ`public`を設定する必要あり。
+```bash
+docker run -it --rm --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=password -e POSTGRES_DB=itemdb -p 5432:5432 -d postgres:11.0
+```
+
+## MariaDB
+文字コードを`utf8_unicode_ci`に設定する必要あり。
+```bash
+docker run -it --rm --name mariadb -e MYSQL_DATABASE=itemdb_test -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -d mariadb:10.3.9
+```
