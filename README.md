@@ -24,7 +24,7 @@ postgres#=\l
 ## MariaDBの起動
 文字コードを`utf8_unicode_ci`に設定する必要あり。
 ```bash
-docker run -it --rm --name mariadb -e MYSQL_DATABASE=itemdb_test -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -d mariadb:10.3.9
+docker run -it --rm --name mariadb -e MYSQL_DATABASE=itemdb_test -e MYSQL_ROOT_PASSWORD=password -p 3306:3306 -d mariadb:10.3.10 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 ```
 
 ## Spring Boot2アプリの起動
