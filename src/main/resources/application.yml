@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: postgres
+    active: development
 
   # Spring Data JPA settings
   jpa:
@@ -62,7 +62,7 @@ spring:
 
   # Postgres database settings
   datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/itemdb_test
+    url: jdbc:mariadb://127.0.0.1:3307/itemdb_test
     username: root
     password: password
     driver-class-name: org.mariadb.jdbc.Driver
