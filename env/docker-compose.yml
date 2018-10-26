@@ -1,14 +1,16 @@
 version: '3.1'
 services:
   app:
-    image: app
+    image: zulu-openjdk-dev
+    depends_on:
+      - postgresdb
     ports:
       - "8080:8080"
-      depends_on:
-        - postgresdb
+    environment:
+      JAR_TARGET: target/itemmanagement-0.0.1-SNAPSHOT.jar
 
   postgresdb:
-    image: postgres
+    image: postgres-dev
     ports: "5433:5432"
     environment:
       - POSTGRES_USER=postgres

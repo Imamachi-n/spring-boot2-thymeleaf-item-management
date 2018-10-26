@@ -1,0 +1,15 @@
+{
+  "name": "spring-boot2-thymeleaf-item-management",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Imamachi-n/spring-boot2-thymeleaf-item-management",
+  "author": "imamachi-n <imamachigatugatu@hotmail.co.jp>",
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^0.14.4"
+  },
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  }
+}

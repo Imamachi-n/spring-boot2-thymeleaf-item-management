@@ -28,6 +28,7 @@ docker run -it --rm --name mariadb-dev -e MYSQL_DATABASE=itemdb_test -e MYSQL_RO
 ```
 
 ## Spring Boot2アプリの起動
+### 1. Mavenを利用する場合
 以下のコマンドを実行し、Webアプリケーションをビルド・起動する。
 ```
 # For MacOS, Linux
@@ -35,4 +36,11 @@ docker run -it --rm --name mariadb-dev -e MYSQL_DATABASE=itemdb_test -e MYSQL_RO
 
 # For Windows
 mvnw.cmd spring-boot:run
+```
+
+### 2. Dockerを利用する場合
+Zulu OpenJDKのDockerコンテナを起動。
+```bash
+docker build -t zulu-openjdk-dev -f env/jdk/Dockerfile env/jdk/
+docker run  --name zulu-openjdk-dev -d zulu-openjdk-dev -e JAR_FILE=C:/Users/imama/Documents/spring-boot2-thymeleaf-item-management/target/itemmanagement-0.0.1-SNAPSHOT.jar
 ```

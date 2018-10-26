@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: development
+    active: postgres
 
   # Spring Data JPA settings
   jpa:
@@ -60,7 +60,7 @@ spring:
 spring:
   profiles: mariadb
 
-  # Postgres database settings
+  # mariadb database settings
   datasource:
     url: jdbc:mariadb://127.0.0.1:3307/itemdb_test
     username: root
