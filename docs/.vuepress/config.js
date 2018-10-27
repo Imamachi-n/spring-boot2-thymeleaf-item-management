@@ -21,7 +21,7 @@ module.exports = {
         lastUpdated: 'Last Updated',
 
         // Assumes GitHub. Can also be a full GitLab url.
-        repo: 'Imamachi-n/core-spring-memo',
+        repo: 'Imamachi-n/spring-boot2-thymeleaf-item-management',
         // Customising the header label
         // Defaults to "GitHub"/"GitLab"/"Bitbucket" depending on `themeConfig.repo`
         repoLabel: 'GitHub',
@@ -29,7 +29,7 @@ module.exports = {
         // Optional options for generating "Edit this page" link
 
         // if your docs are in a different repo from your main project:
-        docsRepo: 'Imamachi-n/core-spring-memo',
+        docsRepo: 'Imamachi-n/spring-boot2-thymeleaf-item-management',
         // if your docs are not at the root of the repo:
         docsDir: 'docs',
         // if your docs are in a specific branch (defaults to 'master'):
@@ -55,14 +55,7 @@ function genSidebarConfigAbout (title) {
             children: [
                 '',
                 '1_di',
-                '2_aop',
-                '3_data-management',
-                '4_spring-boot',
-                '5_mvc',
-                '6_security',
-                '7_rest',
-                '8_testing',
-                '9_react'
+                '2_aop'
             ]
         }
     ]
