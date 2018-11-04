@@ -2,7 +2,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/9520982bbd77a626d45f/maintainability)](https://codeclimate.com/github/Imamachi-n/spring-boot2-thymeleaf-item-management/maintainability)
 [![codebeat badge](https://codebeat.co/badges/25af3bd1-fbdc-4f6a-b455-2fba931682da)](https://codebeat.co/projects/github-com-imamachi-n-spring-boot2-thymeleaf-item-management-master)
 
-This repository is a experimental spring boot2 project for me and NOT production-ready source code.
+This repository is a experimental spring boot2 project for me and NOT a production-ready source code.
 
 ## Heroku
 https://spring-boot-item-management.herokuapp.com/login
