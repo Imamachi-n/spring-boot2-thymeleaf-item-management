@@ -1,7 +1,7 @@
 spring:
   # active profile setting
   profiles:
-    active: postgres
+    active: development
 
   # Spring Data JPA settings
   jpa:
